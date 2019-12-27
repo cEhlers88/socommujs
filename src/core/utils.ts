@@ -1,10 +1,6 @@
 import { serverevent } from './enums';
 
-export const getServereventString = (Event: serverevent): string => {
+export const getServereventString = (Event: serverevent|string): string => {
+  if(typeof Event === "string") return Event;
   return serverevent[Event];
-  for (const name in serverevent) {
-    if (name === '' + Event + '') {
-      return serverevent[name];
-    }
-  }
 };

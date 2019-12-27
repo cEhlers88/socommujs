@@ -41,12 +41,14 @@ export default abstract class {
   public getState(): pluginstate {
     return this.state;
   }
-  public init(EventHandler: Eventhandler) {
+  public init(props:{
+    EventHandler: Eventhandler
+  }) {
     const self = this;
     return new Promise(() => {
       try {
         self.getListenEvents().map((event: serverevent) => {
-          EventHandler.addListener(getServereventString(event), (props?: unknown) => {
+          props.EventHandler.addListener(getServereventString(event), (props?: unknown) => {
             self.handleEvent(event, props);
           });
         });
