@@ -1,5 +1,5 @@
 import { IMessageEvent, w3cwebsocket } from 'websocket';
-import {logLevel} from "./core/enums";
+import { logLevel } from './core/enums';
 import Eventhandler from './Eventhandler';
 
 export default class {
@@ -73,9 +73,9 @@ export default class {
         });
       }
     } else {
-      this.EvtHandler.dispatch('log',{
-        logLevel:logLevel.error,
-        logMessage:'error'
+      this.EvtHandler.dispatch('log', {
+        logLevel: logLevel.error,
+        logMessage: 'error',
       });
     }
   }
@@ -101,10 +101,10 @@ export default class {
               self.EvtHandler.dispatch('message', message.data);
             }
           } catch (e) {
-            self.EvtHandler.dispatch('log',{
-              logLevel:logLevel.error,
-              logMessage:'Error'
-            })
+            self.EvtHandler.dispatch('log', {
+              logLevel: logLevel.error,
+              logMessage: 'Error',
+            });
           }
         };
         self.Socket.onclose = () => {
