@@ -24,7 +24,9 @@ export default class Server {
   }
   public addPlugin(newPlugin: Serverplugin): Server {
     this.plugins.push(newPlugin);
-    newPlugin.init(this.EvtHandler);
+    newPlugin.init({
+      EventHandler:this.EvtHandler
+    });
     return this;
   }
   public getPort(): number {
