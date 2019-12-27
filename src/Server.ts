@@ -1,8 +1,9 @@
 import * as http from 'http';
 import * as websocket from 'websocket';
-import { logLevel, serverstate } from './core/enums';
+import {logLevel, serverevent, serverstate} from './core/enums';
 import Serverplugin from './core/Serverplugin';
 import Eventhandler from './Eventhandler';
+import {getServereventString} from "./core/utils";
 
 export default class Server {
   private EvtHandler: Eventhandler = new Eventhandler();
@@ -13,7 +14,20 @@ export default class Server {
   private WebsocketServer: websocket.server | any;
 
   constructor() {
+    this.EvtHandler = new Eventhandler();
+
     this._init();
+  }
+  public addEventListener(event:serverevent|string,eventProperties?:any):Server{
+    this.EvtHandler.addListener(getServereventString(event),eventProperties);
+    return this;
+  }
+  public addPlugin(newPlugin: Serverplugin): Server {
+    this.plugins.push(newPlugin);
+    newPlugin.init({
+      EventHandler:this.EvtHandler
+    });
+    return this;
   }
   public getPort(): number {
     return this.port;
@@ -21,18 +35,13 @@ export default class Server {
   public getState(): serverstate {
     return this.state;
   }
-  public addPlugin(newPlugin: Serverplugin): Server {
-    this.plugins.push(newPlugin);
-    newPlugin.init(this.EvtHandler);
-    return this;
-  }
   public listen(port?: number) {
     if (
       this.state !== serverstate.unknown &&
       this.state !== serverstate.initialized &&
       this.state !== serverstate.closed
     ) {
-      // close active socket
+      this._init();
     }
     if (port) {
       this.port = port;
@@ -47,14 +56,21 @@ export default class Server {
       this._log('Server start failed', logLevel.error, e);
     }
   }
+  public setPort(newValue:number){this.port = newValue;}
 
   private _init() {
-    this.EvtHandler = new Eventhandler();
+    const self = this;
     this.HttpServer = http.createServer();
     this.WebsocketServer = new websocket.server({ httpServer: this.HttpServer });
+
+    this.WebsocketServer.on('request',(request:any)=>{
+      self.EvtHandler.dispatch(getServereventString(serverevent.clientWillConnect),request);
+    });
+    this.state = serverstate.initialized;
+    this.EvtHandler.dispatch(getServereventString(serverevent.serverInitialized),null);
   }
   private _log(logMessage: string, level: logLevel, additionals?: unknown) {
-    this.EvtHandler.dispatch('log', { logMessage, logLevel: level, additionals });
+    this.EvtHandler.dispatch(getServereventString(serverevent.log), { logMessage, logLevel: level, additionals });
   }
   private _runPlugins() {
     if (this.state === serverstate.listening) {
