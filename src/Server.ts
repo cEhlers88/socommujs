@@ -1,9 +1,9 @@
+import Eventhandler from '@cehlers88/ceutils/src/Eventhandler';
 import * as http from 'http';
 import * as websocket from 'websocket';
 import { logLevel, serverevent, serverstate } from './core/enums';
 import Serverplugin from './core/Serverplugin';
 import { getServereventString } from './core/utils';
-import Eventhandler from '@cehlers88/ceutils/src/Eventhandler';
 
 export default class Server {
   private EvtHandler: Eventhandler = new Eventhandler();

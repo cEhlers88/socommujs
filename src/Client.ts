@@ -1,6 +1,6 @@
+import Eventhandler from '@cehlers88/ceutils/src/Eventhandler';
 import { IMessageEvent, w3cwebsocket } from 'websocket';
 import { logLevel } from './core/enums';
-import Eventhandler from '@cehlers88/ceutils/src/Eventhandler';
 
 export default class {
   private Websocket: w3cwebsocket | null = null;
