@@ -32,6 +32,7 @@
   "author": "Christoph Ehlers<Christoph.Ehlers1988@gmx.de>",
   "license": "ISC",
   "dependencies": {
+    "@cehlers88/ceutils": "^1.0.0",
     "websocket": "^1.0.31"
   },
   "devDependencies": {
