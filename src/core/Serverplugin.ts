@@ -1,4 +1,4 @@
-import Eventhandler from '../Eventhandler';
+import Eventhandler from 'ceutils/dist/Eventhandler';
 import { logLevel, pluginstate, serverevent } from './enums';
 import { IPlugindataEntry, IPlugininfo, IPluginsettingEntry } from './interfaces';
 import { getServereventString } from './utils';
