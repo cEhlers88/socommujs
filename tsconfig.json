@@ -4,13 +4,15 @@
     "target": "esnext",
     "sourceMap": false,
     "declaration": true,
-    "outDir": "./dist",
+    "outDir": "dist",
     "strict": true,
     "isolatedModules": false,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true
   },
-  "include": ["src"],
+  "include": [
+    "src"
+  ],
   "exclude": [
     "node_modules",
     "**/__tests__/*"
