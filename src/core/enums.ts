@@ -18,7 +18,9 @@ export enum serverevent {
   clientWillConnect,
   getClientRequest,
   log,
-  serverInitialized
+  serverInitialized,
+  serverStart,
+  serverStop,
 }
 export enum serverstate {
   unknown,

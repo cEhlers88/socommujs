@@ -1,16 +1,16 @@
-import {logLevel, serverevent} from '../core/enums';
+import { logLevel, serverevent } from '../core/enums';
 import Serverplugin from '../core/Serverplugin';
 
 export default class extends Serverplugin {
-  public getListenEvents(): serverevent[] {
-    return [
-    ]
+  constructor() {
+    super();
+    this.setName('ClientPlugin');
   }
-  public getName(): string {
-    throw new Error('Method not implemented.');
+  public getListenEvents(): serverevent[] {
+    return [];
   }
   public handleEvent(event: serverevent, eventProps?: unknown): void {
-
+    // test
   }
   public run(data?: unknown): void {
     throw new Error('Method not implemented.');

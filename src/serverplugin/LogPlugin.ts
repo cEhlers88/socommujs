@@ -4,12 +4,10 @@ import Serverplugin from '../core/Serverplugin';
 export default class extends Serverplugin {
   constructor() {
     super();
+    this.setName('LogPlugin');
   }
   public getListenEvents(): serverevent[] {
     return [serverevent.log];
-  }
-  public getName(): string {
-    throw new Error('Method not implemented.');
   }
   public handleEvent(event: serverevent, eventProps?: unknown): void {
     // console.log(event, eventProps);
