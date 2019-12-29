@@ -17,6 +17,7 @@ export default class extends Serverplugin {
     }
   }
   public run(data?: unknown): void {
-
+    let didNothing:boolean=true;
+    didNothing=false;
   }
 }

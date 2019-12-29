@@ -10,9 +10,11 @@ export default class extends Serverplugin {
     return [];
   }
   public handleEvent(event: serverevent, eventProps?: unknown): void {
-
+    let didNothing:boolean=true;
+    didNothing=false;
   }
   public run(data?: unknown): void {
-
+    let didNothing:boolean=true;
+    didNothing=false;
   }
 }
