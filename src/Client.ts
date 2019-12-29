@@ -1,4 +1,4 @@
-import Eventhandler from '@cehlers88/ceutils/src/Eventhandler';
+import Eventhandler from '@cehlers88/ceutils/dist/Eventhandler';
 import { IMessageEvent, w3cwebsocket } from 'websocket';
 import { logLevel } from './core/enums';
 

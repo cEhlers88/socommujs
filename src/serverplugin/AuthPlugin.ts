@@ -12,10 +12,11 @@ export default class extends Serverplugin {
   public handleEvent(event: serverevent, eventProps?: unknown): void {
     switch (event) {
       case serverevent.clientWillConnect:
+
         break;
     }
   }
   public run(data?: unknown): void {
-    throw new Error('Method not implemented.');
+
   }
 }

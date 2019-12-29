@@ -1,4 +1,4 @@
-import Eventhandler from '@cehlers88/ceutils/src/Eventhandler';
+import Eventhandler from '@cehlers88/ceutils/dist/Eventhandler';
 import { logLevel, pluginstate, serverevent } from './enums';
 import { IPlugindataEntry, IPlugininfo, IPluginsettingEntry } from './interfaces';
 import { getServereventString } from './utils';

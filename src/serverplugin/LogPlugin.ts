@@ -10,9 +10,9 @@ export default class extends Serverplugin {
     return [serverevent.log];
   }
   public handleEvent(event: serverevent, eventProps?: unknown): void {
-    // console.log(event, eventProps);
+
   }
   public run(data?: unknown): void {
-    throw new Error('Method not implemented.');
+
   }
 }

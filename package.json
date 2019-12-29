@@ -32,7 +32,7 @@
   "author": "Christoph Ehlers<Christoph.Ehlers1988@gmx.de>",
   "license": "ISC",
   "dependencies": {
-    "@cehlers88/ceutils": "^1.0.0",
+    "@cehlers88/ceutils": "^1.0.1",
     "websocket": "^1.0.31"
   },
   "devDependencies": {
@@ -49,5 +49,8 @@
     "typescript": "^3.7.4"
   },
   "module": "index.ts",
+  "files": [
+    "dist/**/*"
+  ],
   "readme": "README.md"
 }
