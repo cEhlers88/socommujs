@@ -1,6 +1,6 @@
 {
   "name": "socommujs",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "socket communication",
   "repository": {
     "type": "git",
@@ -49,8 +49,5 @@
     "typescript": "^3.7.4"
   },
   "module": "index.ts",
-  "files": [
-    "dist/**/*"
-  ],
   "readme": "README.md"
 }

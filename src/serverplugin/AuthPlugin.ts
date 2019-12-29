@@ -12,12 +12,11 @@ export default class extends Serverplugin {
   public handleEvent(event: serverevent, eventProps?: unknown): void {
     switch (event) {
       case serverevent.clientWillConnect:
-
         break;
     }
   }
   public run(data?: unknown): void {
-    let didNothing:boolean=true;
-    didNothing=false;
+    let didNothing: boolean = true;
+    didNothing = false;
   }
 }
