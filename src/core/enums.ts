@@ -12,6 +12,11 @@ export enum EPluginState {
 
   error,
 }
+export enum ERequestMessage {
+  userExist,
+  login,
+  logout
+}
 export enum EServerEvent {
   clientConnected,
   clientDisconnected,

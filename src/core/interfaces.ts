@@ -1,6 +1,6 @@
 import {IDataEntry} from "@cehlers88/ceutils/dist/interfaces";
 export interface IClientinfo {
-  data?:IDataEntry[]|null,
+  data?:IDataEntry[],
   Connection: any;
   roles: string[];
   id: string;

@@ -9,8 +9,8 @@ export default class Clientmanager {
   }
   public createClient():IClientinfo{
     return {
-      data:null,
       Connection: '',
+      data:[],
       id: Math.random().toString(36).substr(2, 15),
       login: '',
       loginTimestamp: new Date(),
