@@ -20,9 +20,9 @@ export default abstract class Serverplugin {
     }
     if (this.EvtHandler) {
       this.EvtHandler.dispatch(getServereventString(EServerEvent.log), {
-        logMessage: '(' + this.getName() + ')' + logMessage,
-        level,
         additionals,
+        level,
+        logMessage: '(' + this.getName() + ')' + logMessage,
       });
     }
   };
