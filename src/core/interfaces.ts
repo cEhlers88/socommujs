@@ -1,7 +1,13 @@
+interface IDataEntry {
+  name: string;
+  value: any;
+}
+export interface IClientdata extends IDataEntry{}
 export interface IClientinfo {
+  data?:IClientdata[]|null,
+  Connection: any;
   roles: string[];
   id: string;
-  Connection: any;
   login: string;
   loginTimestamp: Date;
 }
@@ -9,10 +15,7 @@ export interface IMessage {
   command: string;
   props?: unknown;
 }
-export interface IPlugindataEntry {
-  name: string;
-  value: any;
-}
+export interface IPlugindataEntry extends IDataEntry{}
 export interface IPlugininfo {
   name: string;
   description: string;

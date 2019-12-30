@@ -3,18 +3,30 @@ import { IClientinfo } from './core/interfaces';
 export default class Clientmanager {
   private clientinfos: IClientinfo[] = [];
 
-  public addClient(): Clientmanager {
-    this.clientinfos.push({
+  public addClient(newClient:IClientinfo): Clientmanager {
+    this.clientinfos.push(newClient);
+    return this;
+  }
+  public createClient():IClientinfo{
+    return {
+      data:null,
       Connection: '',
       id: '',
       login: '',
       loginTimestamp: new Date(),
       roles: ['GUEST'],
-    });
-    return this;
+    }
   }
-
+  public getClient(clientId:string):IClientinfo|undefined{
+    return this.clientinfos.find((Client:IClientinfo)=>Client.id===clientId);
+  }
   public getClients(): IClientinfo[] {
     return this.clientinfos;
+  }
+  public removeAllClients(){
+    this.clientinfos = [];
+  }
+  public removeClient(clientId:string){
+    this.clientinfos = this.clientinfos.filter((Client:IClientinfo)=>Client.id!==clientId);
   }
 }
