@@ -15,7 +15,7 @@ export enum EPluginState {
 export enum ERequestMessage {
   userExist,
   login,
-  logout
+  logout,
 }
 export enum EServerEvent {
   clientConnected,

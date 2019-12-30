@@ -1,8 +1,8 @@
-import Clientmanager from "../Clientmanager";
+import Clientmanager from '../Clientmanager';
 let ClientmanagerInstance: Clientmanager;
 
-beforeEach(()=>{
-  ClientmanagerInstance= new Clientmanager();
+beforeEach(() => {
+  ClientmanagerInstance = new Clientmanager();
 });
 
 test('There should be no Clients after just initializing Clientmanager.', () => {
@@ -36,5 +36,3 @@ test('After add some clients and remove them all, there should ne no clients at 
   ClientmanagerInstance.removeAllClients();
   expect(ClientmanagerInstance.getClients().length).toBe(0);
 });
-
-

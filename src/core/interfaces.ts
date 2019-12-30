@@ -1,6 +1,6 @@
-import {IDataEntry} from "@cehlers88/ceutils/dist/interfaces";
+import { IDataEntry } from '@cehlers88/ceutils/dist/interfaces';
 export interface IClientinfo {
-  data?:IDataEntry[],
+  data?: IDataEntry[];
   Connection: any;
   roles: string[];
   id: string;
@@ -27,5 +27,5 @@ export interface IPluginsettingEntry {
 }
 export interface IResponse {
   request: IMessage;
-  response: IMessage & {requestId:string};
+  response: IMessage & { requestId: string };
 }
