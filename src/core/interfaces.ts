@@ -1,10 +1,6 @@
-interface IDataEntry {
-  name: string;
-  value: any;
-}
-export interface IClientdata extends IDataEntry{}
+import {IDataEntry} from "@cehlers88/ceutils/dist/interfaces";
 export interface IClientinfo {
-  data?:IClientdata[]|null,
+  data?:IDataEntry[]|null,
   Connection: any;
   roles: string[];
   id: string;
@@ -12,14 +8,13 @@ export interface IClientinfo {
   loginTimestamp: Date;
 }
 export interface IMessage {
-  command: string;
-  props?: unknown;
+  message: string;
+  data?: IDataEntry[];
 }
-export interface IPlugindataEntry extends IDataEntry{}
 export interface IPlugininfo {
   name: string;
   description: string;
-  data: IPlugindataEntry[];
+  data: IDataEntry[];
   settings: Array<{ name: string; value: string | number }>;
 }
 export interface IPluginsettingEntry {
@@ -32,5 +27,5 @@ export interface IPluginsettingEntry {
 }
 export interface IResponse {
   request: IMessage;
-  response: IMessage;
+  response: IMessage & {requestId:string};
 }

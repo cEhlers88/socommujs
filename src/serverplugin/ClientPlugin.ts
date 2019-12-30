@@ -1,4 +1,4 @@
-import { logLevel, serverevent } from '../core/enums';
+import { ELogLevel, EServerEvent } from '../core/enums';
 import Serverplugin from '../core/Serverplugin';
 
 export default class extends Serverplugin {
@@ -6,10 +6,10 @@ export default class extends Serverplugin {
     super();
     this.setName('ClientPlugin');
   }
-  public getListenEvents(): serverevent[] {
+  public getListenEvents(): EServerEvent[] {
     return [];
   }
-  public handleEvent(event: serverevent, eventProps?: unknown): void {
+  public handleEvent(event: EServerEvent, eventProps?: unknown): void {
     let didNothing: boolean = true;
     didNothing = false;
   }

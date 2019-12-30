@@ -1,6 +1,6 @@
 import Eventhandler from '@cehlers88/ceutils/dist/Eventhandler';
 import { IMessageEvent, w3cwebsocket } from 'websocket';
-import { logLevel } from './core/enums';
+import { ELogLevel } from './core/enums';
 
 export default class {
   private Websocket: w3cwebsocket | null = null;
@@ -74,7 +74,7 @@ export default class {
       }
     } else {
       this.EvtHandler.dispatch('log', {
-        logLevel: logLevel.error,
+        logLevel: ELogLevel.error,
         logMessage: 'error',
       });
     }
@@ -102,7 +102,7 @@ export default class {
             }
           } catch (e) {
             self.EvtHandler.dispatch('log', {
-              logLevel: logLevel.error,
+              logLevel: ELogLevel.error,
               logMessage: 'Error',
             });
           }

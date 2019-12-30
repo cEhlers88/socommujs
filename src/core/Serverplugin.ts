@@ -1,37 +1,33 @@
+import Datahandler from "@cehlers88/ceutils/dist/Datahandler";
 import Eventhandler from '@cehlers88/ceutils/dist/Eventhandler';
-import { logLevel, pluginstate, serverevent } from './enums';
-import { IPlugindataEntry, IPlugininfo, IPluginsettingEntry } from './interfaces';
+import { ELogLevel, EPluginState, EServerEvent } from './enums';
+import { IPlugininfo, IPluginsettingEntry } from './interfaces';
 import { getServereventString } from './utils';
 
 export default abstract class Serverplugin {
   protected EvtHandler: Eventhandler | null = null;
-  private data: IPlugindataEntry[] = [{ name: '_name', value: '' }];
+  private DataHandler:Datahandler=new Datahandler();
   private settings: IPluginsettingEntry[] = [];
-  private state: pluginstate = pluginstate.unknown;
+  private state: EPluginState = EPluginState.unknown;
 
-  public readonly log: (logMessage: string, level?: logLevel, additionals?: unknown) => void = (
+  public readonly log: (logMessage: string, level?: ELogLevel, additionals?: unknown) => void = (
     logMessage: string,
-    level?: logLevel,
+    level?: ELogLevel,
     additionals?: unknown,
   ) => {
     if (!level) {
-      level = logLevel.debug;
+      level = ELogLevel.debug;
     }
     if (this.EvtHandler) {
-      this.EvtHandler.dispatch(getServereventString(serverevent.log), { logMessage, level, additionals });
+      this.EvtHandler.dispatch(getServereventString(EServerEvent.log), { logMessage:'('+this.getName()+')'+logMessage, level, additionals });
     }
   };
 
-  public abstract getListenEvents(): serverevent[];
+  public abstract getListenEvents(): EServerEvent[];
   public readonly getName: () => string = () => {
-    const entry = this.data.find((Entry: IPlugindataEntry) => Entry.name === '_name');
-    if (entry && entry.value !== '') {
-      return entry.value;
-    } else {
-      return '!-]?[-!';
-    }
+    return this.DataHandler.getDataSave('name','');
   };
-  public abstract handleEvent(event: serverevent, eventProps?: unknown): void;
+  public abstract handleEvent(event: EServerEvent, eventProps?: unknown): void;
   public abstract run(data?: unknown): void;
 
   public getDescription(): string {
@@ -39,7 +35,7 @@ export default abstract class Serverplugin {
   }
   public getInfo(): IPlugininfo {
     return {
-      data: this.data,
+      data: this.DataHandler.getAll(),
       description: this.getDescription(),
       name: this.getName(),
       settings: this.settings,
@@ -48,7 +44,7 @@ export default abstract class Serverplugin {
   public getSettings(): IPluginsettingEntry[] {
     return this.settings;
   }
-  public getState(): pluginstate {
+  public getState(): EPluginState {
     return this.state;
   }
   public init(initProps: {
@@ -61,22 +57,18 @@ export default abstract class Serverplugin {
     this.EvtHandler = initProps.EventHandler;
     return new Promise(() => {
       try {
-        [serverevent.serverStart, ...self.getListenEvents()].map((event: serverevent) => {
+        [EServerEvent.serverStart, ...self.getListenEvents()].map((event: EServerEvent) => {
           initProps.EventHandler.addListener(getServereventString(event), (props?: unknown) => {
             self.handleEvent(event, props);
           });
         });
       } catch (e) {
-        self.log('Error ', logLevel.error);
+        self.log('Error ', ELogLevel.error);
       }
     });
   }
   public setName(newValue: string): Serverplugin {
-    for (const entry of this.data) {
-      if (entry.name === '_name') {
-        entry.value = newValue;
-      }
-    }
+    this.DataHandler.setData('name',newValue);
     return this;
   }
 }

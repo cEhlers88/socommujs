@@ -1,4 +1,4 @@
-export enum logLevel {
+export enum ELogLevel {
   unknown,
   debug,
   info,
@@ -6,13 +6,13 @@ export enum logLevel {
   error,
   fatal,
 }
-export enum pluginstate {
+export enum EPluginState {
   unknown,
   initialized,
 
   error,
 }
-export enum serverevent {
+export enum EServerEvent {
   clientConnected,
   clientDisconnected,
   clientWillConnect,
@@ -22,7 +22,7 @@ export enum serverevent {
   serverStart,
   serverStop,
 }
-export enum serverstate {
+export enum EServerState {
   unknown,
   initialized,
   closed,

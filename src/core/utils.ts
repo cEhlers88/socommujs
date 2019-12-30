@@ -1,8 +1,8 @@
-import { serverevent } from './enums';
+import { EServerEvent } from './enums';
 
-export const getServereventString = (Event: serverevent | string): string => {
+export const getServereventString = (Event: EServerEvent | string): string => {
   if (typeof Event === 'string') {
     return Event;
   }
-  return serverevent[Event];
+  return EServerEvent[Event];
 };

@@ -1,7 +1,7 @@
 import Eventhandler from '@cehlers88/ceutils/dist/Eventhandler';
 import * as http from 'http';
 import * as websocket from 'websocket';
-import { logLevel, serverevent, serverstate } from './core/enums';
+import { ELogLevel, EServerEvent, EServerState } from './core/enums';
 import Serverplugin from './core/Serverplugin';
 import { getServereventString } from './core/utils';
 
@@ -10,7 +10,7 @@ export default class Server {
   private HttpServer: http.Server | any;
   private plugins: Serverplugin[] = [];
   private port: number = 2607;
-  private state: serverstate = serverstate.unknown;
+  private state: EServerState = EServerState.unknown;
   private WebsocketServer: websocket.server | any;
 
   constructor() {
@@ -18,7 +18,7 @@ export default class Server {
 
     this._init();
   }
-  public addEventListener(event: serverevent | string, eventProperties?: any): Server {
+  public addEventListener(event: EServerEvent | string, eventProperties?: any): Server {
     this.EvtHandler.addListener(getServereventString(event), eventProperties);
     return this;
   }
@@ -37,14 +37,14 @@ export default class Server {
   public getPort(): number {
     return this.port;
   }
-  public getState(): serverstate {
+  public getState(): EServerState {
     return this.state;
   }
   public listen(port?: number) {
     if (
-      this.state !== serverstate.unknown &&
-      this.state !== serverstate.initialized &&
-      this.state !== serverstate.closed
+      this.state !== EServerState.unknown &&
+      this.state !== EServerState.initialized &&
+      this.state !== EServerState.closed
     ) {
       this._init();
     }
@@ -54,12 +54,12 @@ export default class Server {
     port = this.port;
     try {
       this.HttpServer.listen(this.port);
-      this.state = serverstate.listening;
-      this.EvtHandler.dispatch(getServereventString(serverevent.serverStart));
-      this._log('Server startet (' + this.plugins.length + ')', logLevel.info);
+      this.state = EServerState.listening;
+      this.EvtHandler.dispatch(getServereventString(EServerEvent.serverStart));
+      this._log('Server startet (' + this.plugins.length + ')', ELogLevel.info);
     } catch (e) {
-      this.state = serverstate.error;
-      this._log('Server start failed', logLevel.error, e);
+      this.state = EServerState.error;
+      this._log('Server start failed', ELogLevel.error, e);
     }
   }
   public setPort(newValue: number) {
@@ -72,16 +72,16 @@ export default class Server {
     this.WebsocketServer = new websocket.server({ httpServer: this.HttpServer });
 
     this.WebsocketServer.on('request', (request: any) => {
-      self.EvtHandler.dispatch(getServereventString(serverevent.clientWillConnect), request);
+      self.EvtHandler.dispatch(getServereventString(EServerEvent.clientWillConnect), request);
     });
-    this.state = serverstate.initialized;
-    this.EvtHandler.dispatch(getServereventString(serverevent.serverInitialized), null);
+    this.state = EServerState.initialized;
+    this.EvtHandler.dispatch(getServereventString(EServerEvent.serverInitialized), null);
   }
-  private _log(logMessage: string, level: logLevel, additionals?: unknown) {
-    this.EvtHandler.dispatch(getServereventString(serverevent.log), { logMessage, logLevel: level, additionals });
+  private _log(logMessage: string, level: ELogLevel, additionals?: unknown) {
+    this.EvtHandler.dispatch(getServereventString(EServerEvent.log), { logMessage, logLevel: level, additionals });
   }
   private _runPlugins() {
-    if (this.state === serverstate.listening) {
+    if (this.state === EServerState.listening) {
       this.plugins.map(Plugin => Plugin.run());
     }
   }

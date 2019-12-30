@@ -11,7 +11,7 @@ export default class Clientmanager {
     return {
       data:null,
       Connection: '',
-      id: '',
+      id: Math.random().toString(36).substr(2, 15),
       login: '',
       loginTimestamp: new Date(),
       roles: ['GUEST'],
