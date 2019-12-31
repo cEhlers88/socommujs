@@ -1,4 +1,5 @@
 import { IDataEntry } from '@cehlers88/ceutils/dist/interfaces';
+import {ELogLevel} from "./enums";
 export interface IClientinfo {
   data?: IDataEntry[];
   Connection: any;
@@ -6,6 +7,11 @@ export interface IClientinfo {
   id: string;
   login: string;
   loginTimestamp: Date;
+}
+export interface ILogInfo {
+  additionals?:any,
+  level:ELogLevel,
+  message:string,
 }
 export interface IMessage {
   message: string;

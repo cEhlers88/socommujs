@@ -1,45 +1,66 @@
+import Datahandler from "@cehlers88/ceutils/dist/Datahandler";
 import Eventhandler from '@cehlers88/ceutils/dist/Eventhandler';
 import * as http from 'http';
 import * as websocket from 'websocket';
-import { ELogLevel, EServerEvent, EServerState } from './core/enums';
+import {ELogLevel, EServerEvent, EServerState} from './core/enums';
 import Serverplugin from './core/Serverplugin';
-import { getServereventString } from './core/utils';
+import {getServereventString} from './core/utils';
 
 export default class Server {
-  private EvtHandler: Eventhandler = new Eventhandler();
-  private HttpServer: http.Server | any;
-  private plugins: Serverplugin[] = [];
-  private port: number = 2607;
-  private state: EServerState = EServerState.unknown;
-  private WebsocketServer: websocket.server | any;
+  private DataHandler: Datahandler = new Datahandler();
 
   constructor() {
-    this.EvtHandler = new Eventhandler();
-
+    this.DataHandler.setMultipleData({
+      _Eventhandler: new Eventhandler(),
+      _HttpServer:null,
+      _WebsocketServer:null,
+      _port:2607,
+      _state:EServerState.unknown
+    });
     this._init();
   }
   public addEventListener(event: EServerEvent | string, eventProperties?: any): Server {
-    this.EvtHandler.addListener(getServereventString(event), eventProperties);
+    this.Eventhandler.addListener(getServereventString(event), eventProperties);
     return this;
   }
   public addPlugin(newPlugin: Serverplugin): Server {
-    this.plugins.push(newPlugin);
+    const self = this;
+    const plugins = this.plugins;
+    plugins.push(newPlugin);
+    newPlugin.setLogHandle((props:any)=>{
+      self.Eventhandler.dispatch(getServereventString(EServerEvent.log),props);
+    });
+    if(newPlugin.getRequiredServerData().length>0){
+      const Serverdata={};
+      newPlugin.getRequiredServerData().map((Dataname:string)=>{
+        // @ts-ignore
+        Serverdata[Dataname] = this.DataHandler.getDataSave(Dataname,null);
+      });
+      newPlugin.setData("_Serverdata",Serverdata);
+    }
+    newPlugin.init();
+
+    /*
     newPlugin.init({
-      EventHandler: this.EvtHandler,
+      Eventhandler:self.Eventhandler,
       serverhandle: {
         getPlugins: (() => {
           return this.plugins;
         }).bind(this),
       },
-    });
+    });*/
+
+    this.DataHandler.setData('_plugins',plugins);
     return this;
   }
+  public get Eventhandler():Eventhandler{return this.DataHandler.getData('_Eventhandler');}
   public getPort(): number {
-    return this.port;
+    return this.DataHandler.getDataSave('_port',2607);
   }
   public getState(): EServerState {
-    return this.state;
+    return this.DataHandler.getDataSave('_state',EServerState.unknown);
   }
+  public get HttpServer():http.Server{return this.DataHandler.getData('_HttpServer');}
   public listen(port?: number) {
     if (
       this.state !== EServerState.unknown &&
@@ -49,36 +70,43 @@ export default class Server {
       this._init();
     }
     if (port) {
-      this.port = port;
+      this.setPort(port);
     }
     port = this.port;
     try {
       this.HttpServer.listen(this.port);
-      this.state = EServerState.listening;
-      this.EvtHandler.dispatch(getServereventString(EServerEvent.serverStart));
+      this.DataHandler.setData('_state', EServerState.listening);
+      this.Eventhandler.dispatch(getServereventString(EServerEvent.serverStart));
       this._log('Server startet (' + this.plugins.length + ')', ELogLevel.info);
     } catch (e) {
-      this.state = EServerState.error;
+      this.DataHandler.setData('_state', EServerState.error);
       this._log('Server start failed', ELogLevel.error, e);
     }
   }
+  public get plugins():Serverplugin[]{return this.DataHandler.getDataSave('_plugins',[]);}
+  public get port():number{return this.DataHandler.getDataSave('_port',2607);}
   public setPort(newValue: number) {
-    this.port = newValue;
+    this.DataHandler.setData('_port',newValue);
   }
+  public get state():EServerState{return this.DataHandler.getDataSave('_state',EServerState.unknown);}
+  public get WebsocketServer():websocket.server{return this.DataHandler.getData('_WebsocketServer');}
 
   private _init() {
     const self = this;
-    this.HttpServer = http.createServer();
-    this.WebsocketServer = new websocket.server({ httpServer: this.HttpServer });
+    const httpServer = http.createServer();
+    this.DataHandler.setMultipleData({
+      _HttpServer:httpServer,
+      _WebsocketServer:new websocket.server({ httpServer })
+    })
 
     this.WebsocketServer.on('request', (request: any) => {
-      self.EvtHandler.dispatch(getServereventString(EServerEvent.clientWillConnect), request);
+      self.Eventhandler.dispatch(getServereventString(EServerEvent.clientWillConnect), request);
     });
-    this.state = EServerState.initialized;
-    this.EvtHandler.dispatch(getServereventString(EServerEvent.serverInitialized), null);
+    this.DataHandler.setData('_state', EServerState.initialized);
+    this.Eventhandler.dispatch(getServereventString(EServerEvent.serverInitialized), null);
   }
   private _log(logMessage: string, level: ELogLevel, additionals?: unknown) {
-    this.EvtHandler.dispatch(getServereventString(EServerEvent.log), { logMessage, logLevel: level, additionals });
+    this.Eventhandler.dispatch(getServereventString(EServerEvent.log), { logMessage, logLevel: level, additionals });
   }
   private _runPlugins() {
     if (this.state === EServerState.listening) {

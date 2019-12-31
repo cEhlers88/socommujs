@@ -1,4 +1,4 @@
-import { EServerEvent } from '../core/enums';
+import {ELogLevel, EServerEvent} from '../core/enums';
 import Serverplugin from '../core/Serverplugin';
 
 export default class extends Serverplugin {
@@ -9,9 +9,10 @@ export default class extends Serverplugin {
   public getListenEvents(): EServerEvent[] {
     return [EServerEvent.clientWillConnect];
   }
-  public handleEvent(event: EServerEvent, eventProps?: unknown): void {
+  public handleEvent(event: EServerEvent, eventProps?: any): void {
     switch (event) {
       case EServerEvent.clientWillConnect:
+          this.log('test',ELogLevel.debug,this.DataHandler.getData('_Serverdata'));
         break;
     }
   }
