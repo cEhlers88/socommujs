@@ -1,18 +1,27 @@
 import {ELogLevel, EServerEvent} from '../core/enums';
 import Serverplugin from '../core/Serverplugin';
+import Clientmanager from "../Clientmanager";
 
 export default class extends Serverplugin {
   constructor() {
     super();
     this.setName('AuthPlugin');
   }
+  public get Clientmanager():Clientmanager{return this.DataHandler.getData('_Serverdata')._Clientmanager;}
   public getListenEvents(): EServerEvent[] {
     return [EServerEvent.clientWillConnect];
+  }
+  public getRequiredServerData(): string[] {
+    return [...super.getRequiredServerData(),
+      "_Clientmanager"
+    ];
   }
   public handleEvent(event: EServerEvent, eventProps?: any): void {
     switch (event) {
       case EServerEvent.clientWillConnect:
-          this.log('test',ELogLevel.debug,this.DataHandler.getData('_Serverdata'));
+          const newClient = this.Clientmanager.createClient();
+          newClient.Connection = eventProps.accept();
+          this.log('test',ELogLevel.info,'ok');
         break;
     }
   }

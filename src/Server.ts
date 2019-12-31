@@ -5,15 +5,18 @@ import * as websocket from 'websocket';
 import {ELogLevel, EServerEvent, EServerState} from './core/enums';
 import Serverplugin from './core/Serverplugin';
 import {getServereventString} from './core/utils';
+import Clientmanager from "./Clientmanager";
 
 export default class Server {
   private DataHandler: Datahandler = new Datahandler();
 
   constructor() {
     this.DataHandler.setMultipleData({
+      _Clientmanager:new Clientmanager(),
       _Eventhandler: new Eventhandler(),
       _HttpServer:null,
       _WebsocketServer:null,
+      _plugins:[],
       _port:2607,
       _state:EServerState.unknown
     });
@@ -39,16 +42,6 @@ export default class Server {
       newPlugin.setData("_Serverdata",Serverdata);
     }
     newPlugin.init();
-
-    /*
-    newPlugin.init({
-      Eventhandler:self.Eventhandler,
-      serverhandle: {
-        getPlugins: (() => {
-          return this.plugins;
-        }).bind(this),
-      },
-    });*/
 
     this.DataHandler.setData('_plugins',plugins);
     return this;
