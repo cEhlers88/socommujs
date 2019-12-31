@@ -7,9 +7,13 @@ export default class extends Serverplugin {
     super();
     this.setName('AuthPlugin');
   }
+  public checkLogin(username:string, password:string):boolean {return true;}
   public get Clientmanager():Clientmanager{return this.DataHandler.getData('_Serverdata')._Clientmanager;}
   public getListenEvents(): EServerEvent[] {
-    return [EServerEvent.clientWillConnect];
+    return [
+        EServerEvent.clientWillConnect,
+        EServerEvent.getClientRequest
+    ];
   }
   public getRequiredServerData(): string[] {
     return [...super.getRequiredServerData(),
@@ -21,7 +25,7 @@ export default class extends Serverplugin {
       case EServerEvent.clientWillConnect:
           const newClient = this.Clientmanager.createClient();
           newClient.Connection = eventProps.accept();
-          this.log('test',ELogLevel.info,'ok');
+          //this.log('test',ELogLevel.info,'ok');
         break;
     }
   }
