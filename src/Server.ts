@@ -1,24 +1,24 @@
-import Datahandler from "@cehlers88/ceutils/dist/Datahandler";
+import Datahandler from '@cehlers88/ceutils/dist/Datahandler';
 import Eventhandler from '@cehlers88/ceutils/dist/Eventhandler';
 import * as http from 'http';
 import * as websocket from 'websocket';
-import Clientmanager from "./Clientmanager";
-import {ELogLevel, EServerEvent, EServerState} from './core/enums';
+import Clientmanager from './Clientmanager';
+import { ELogLevel, EServerEvent, EServerState } from './core/enums';
 import Serverplugin from './core/Serverplugin';
-import {getServereventString} from './core/utils';
+import { getServereventString } from './core/utils';
 
 export default class Server {
   private DataHandler: Datahandler = new Datahandler();
 
   constructor() {
     this.DataHandler.setMultipleData({
-      _Clientmanager:new Clientmanager(),
+      _Clientmanager: new Clientmanager(),
       _Eventhandler: new Eventhandler(),
-      _HttpServer:null,
-      _WebsocketServer:null,
-      _plugins:[],
-      _port:2607,
-      _state:EServerState.unknown
+      _HttpServer: null,
+      _WebsocketServer: null,
+      _plugins: [],
+      _port: 2607,
+      _state: EServerState.unknown,
     });
     this._init();
   }
@@ -30,30 +30,34 @@ export default class Server {
     const self = this;
     const plugins = this.plugins;
     plugins.push(newPlugin);
-    newPlugin.setLogHandle((props:any)=>{
-      self.Eventhandler.dispatch(getServereventString(EServerEvent.log),props);
+    newPlugin.setLogHandle((props: any) => {
+      self.Eventhandler.dispatch(getServereventString(EServerEvent.log), props);
     });
-    if(newPlugin.getRequiredServerData().length>0){
-      const Serverdata={};
-      newPlugin.getRequiredServerData().map((Dataname:string)=>{
+    if (newPlugin.getRequiredServerData().length > 0) {
+      const Serverdata = {};
+      newPlugin.getRequiredServerData().map((Dataname: string) => {
         // @ts-ignore
-        Serverdata[Dataname] = this.DataHandler.getDataSave(Dataname,null);
+        Serverdata[Dataname] = this.DataHandler.getDataSave(Dataname, null);
       });
-      newPlugin.setData("_Serverdata",Serverdata);
+      newPlugin.setData('_Serverdata', Serverdata);
     }
     newPlugin.init();
 
-    this.DataHandler.setData('_plugins',plugins);
+    this.DataHandler.setData('_plugins', plugins);
     return this;
   }
-  public get Eventhandler():Eventhandler{return this.DataHandler.getData('_Eventhandler');}
+  public get Eventhandler(): Eventhandler {
+    return this.DataHandler.getData('_Eventhandler');
+  }
   public getPort(): number {
-    return this.DataHandler.getDataSave('_port',2607);
+    return this.DataHandler.getDataSave('_port', 2607);
   }
   public getState(): EServerState {
-    return this.DataHandler.getDataSave('_state',EServerState.unknown);
+    return this.DataHandler.getDataSave('_state', EServerState.unknown);
   }
-  public get HttpServer():http.Server{return this.DataHandler.getData('_HttpServer');}
+  public get HttpServer(): http.Server {
+    return this.DataHandler.getData('_HttpServer');
+  }
   public listen(port?: number) {
     if (
       this.state !== EServerState.unknown &&
@@ -76,21 +80,29 @@ export default class Server {
       this._log('Server start failed', ELogLevel.error, e);
     }
   }
-  public get plugins():Serverplugin[]{return this.DataHandler.getDataSave('_plugins',[]);}
-  public get port():number{return this.DataHandler.getDataSave('_port',2607);}
-  public setPort(newValue: number) {
-    this.DataHandler.setData('_port',newValue);
+  public get plugins(): Serverplugin[] {
+    return this.DataHandler.getDataSave('_plugins', []);
   }
-  public get state():EServerState{return this.DataHandler.getDataSave('_state',EServerState.unknown);}
-  public get WebsocketServer():websocket.server{return this.DataHandler.getData('_WebsocketServer');}
+  public get port(): number {
+    return this.DataHandler.getDataSave('_port', 2607);
+  }
+  public setPort(newValue: number) {
+    this.DataHandler.setData('_port', newValue);
+  }
+  public get state(): EServerState {
+    return this.DataHandler.getDataSave('_state', EServerState.unknown);
+  }
+  public get WebsocketServer(): websocket.server {
+    return this.DataHandler.getData('_WebsocketServer');
+  }
 
   private _init() {
     const self = this;
     const httpServer = http.createServer();
     this.DataHandler.setMultipleData({
-      _HttpServer:httpServer,
-      _WebsocketServer:new websocket.server({ httpServer })
-    })
+      _HttpServer: httpServer,
+      _WebsocketServer: new websocket.server({ httpServer }),
+    });
 
     this.WebsocketServer.on('request', (request: any) => {
       self.Eventhandler.dispatch(getServereventString(EServerEvent.clientWillConnect), request);
