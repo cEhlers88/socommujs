@@ -60,18 +60,18 @@ export default class Server {
   }
   public listen(port?: number) {
     if (
-      this.state !== EServerState.unknown &&
-      this.state !== EServerState.initialized &&
-      this.state !== EServerState.closed
+      this.getState() !== EServerState.unknown &&
+      this.getState() !== EServerState.initialized &&
+      this.getState() !== EServerState.closed
     ) {
       this._init();
     }
     if (port) {
       this.setPort(port);
     }
-    port = this.port;
+    port = this.getPort();
     try {
-      this.HttpServer.listen(this.port);
+      this.HttpServer.listen(port);
       this.DataHandler.setData('_state', EServerState.listening);
       this.Eventhandler.dispatch(getServereventString(EServerEvent.serverStart));
       this._log('Server startet', ELogLevel.info);
@@ -83,14 +83,8 @@ export default class Server {
   public get plugins(): Serverplugin[] {
     return this.DataHandler.getDataSave('_plugins', []);
   }
-  public get port(): number {
-    return this.DataHandler.getDataSave('_port', 2607);
-  }
   public setPort(newValue: number) {
     this.DataHandler.setData('_port', newValue);
-  }
-  public get state(): EServerState {
-    return this.DataHandler.getDataSave('_state', EServerState.unknown);
   }
   public get WebsocketServer(): websocket.server {
     return this.DataHandler.getData('_WebsocketServer');
@@ -114,7 +108,7 @@ export default class Server {
     this.Eventhandler.dispatch(getServereventString(EServerEvent.log), { logMessage, logLevel: level, additionals });
   }
   private _runPlugins() {
-    if (this.state === EServerState.listening) {
+    if (this.getState() === EServerState.listening) {
       this.plugins.map(Plugin => Plugin.run());
     }
   }
