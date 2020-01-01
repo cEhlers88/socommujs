@@ -52,9 +52,6 @@ export default class Server {
   public getState(): EServerState {
     return this.DataHandler.getDataSave('_state', EServerState.unknown);
   }
-  public get HttpServer(): http.Server {
-    return this.DataHandler.getData('_HttpServer');
-  }
   public listen(port?: number) {
     if (
       this.getState() !== EServerState.unknown &&
@@ -109,5 +106,8 @@ export default class Server {
   }
   private get Eventhandler(): Eventhandler {
     return this.DataHandler.getData('_Eventhandler');
+  }
+  private get HttpServer(): http.Server {
+    return this.DataHandler.getData('_HttpServer');
   }
 }
