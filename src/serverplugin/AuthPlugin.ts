@@ -1,10 +1,10 @@
 import {IDataEntry} from "@cehlers88/ceutils/dist/interfaces";
-import {ELogLevel, EServerEvent} from '../core/enums';
-import Serverplugin from '../core/Serverplugin';
 import Clientmanager from "../Clientmanager";
-import {getServereventString} from "../core/utils";
+import {ELogLevel, EServerEvent} from '../core/enums';
 import {IClientinfo, IMessage} from "../core/interfaces";
 import {Authenticate, UserExist, Version} from "../core/requestMessages";
+import Serverplugin from '../core/Serverplugin';
+import {getServereventString} from "../core/utils";
 
 export default class extends Serverplugin {
   constructor() {
@@ -33,7 +33,6 @@ export default class extends Serverplugin {
           this.Clientmanager.addClient(newClient);
           newClient.Connection = eventProps.accept();
           newClient.messageHandle = (request:any) => {
-              const self = this;
               try {
                   const dataRaw = JSON.parse(request.utf8Data);
                   self.DataHandler.getData('_Serverdata')._Eventhandler.dispatch(getServereventString(EServerEvent.getUnauthenticatedRequest),dataRaw);

@@ -16,8 +16,8 @@ export default class Clientmanager {
         .substr(2, 15),
       login: '',
       loginTimestamp: new Date(),
-      roles: ['GUEST'],
-      messageHandle:()=>{}
+      messageHandle:()=>false,
+      roles: ['GUEST']
     };
   }
   public getClient(clientId: string): IClientinfo | undefined {
