@@ -49,9 +49,6 @@ export default class {
   public on(eventName: string, callableFunction: CallableFunction) {
     this.EvtHandler.on(eventName, callableFunction);
   }
-  public get Socket(): w3cwebsocket | null {
-    return this.Websocket;
-  }
 
   private _socketSend(data: any) {
     if (this.Websocket) {
@@ -76,8 +73,8 @@ export default class {
   private _bindEvents() {
     const self = this;
     this.EvtHandler.addListener('open', () => {
-      if (self.Socket) {
-        self.Socket.onmessage = (message: IMessageEvent) => {
+      if (self.Websocket) {
+        self.Websocket.onmessage = (message: IMessageEvent) => {
           try {
             // @ts-ignore
             const data:IResponse= JSON.parse(message.data);
@@ -102,7 +99,7 @@ export default class {
             });
           }
         };
-        self.Socket.onclose = () => {
+        self.Websocket.onclose = () => {
           self.EvtHandler.dispatch('close', null);
         };
       }
