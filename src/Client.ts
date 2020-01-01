@@ -13,7 +13,6 @@ export default class {
   constructor() {
     this.Websocket = null;
     this.EvtHandler = new Eventhandler();
-
     this._bindEvents();
   }
 
@@ -29,7 +28,7 @@ export default class {
       this.serverport = port;
     }
 
-    this.Websocket = new w3cwebsocket(this.serverhost + ':' + this.serverport);
+    this.Websocket = new w3cwebsocket("ws://"+this.serverhost + ':' + this.serverport);
     this.Websocket.onopen = () => {
       self.EvtHandler.dispatch('open');
       if (onOpen) {
@@ -43,19 +42,18 @@ export default class {
   public sendRequest(data: any, responseFunction: CallableFunction) {
     const reqId = Math.random()
       .toString(36)
-      .substr(2, 9);
+      .substr(2, 13);
     this.requestsStack.push({ requestId: reqId, callback: responseFunction });
     this._socketSend({ ...data, requestId: reqId });
   }
   public on(eventName: string, callableFunction: CallableFunction) {
-    this.EvtHandler.addListener(eventName, callableFunction);
+    this.EvtHandler.on(eventName, callableFunction);
   }
   public get Socket(): w3cwebsocket | null {
     return this.Websocket;
   }
 
   private _socketSend(data: any) {
-    const self = this;
     if (this.Websocket) {
       if (this.Websocket.readyState === 1) {
         this.Websocket.send(
@@ -65,12 +63,7 @@ export default class {
         );
       } else {
         this.connect(this.serverhost, this.serverport, () => {
-          // @ts-ignore
-          self._Socket.send(
-            JSON.stringify({
-              ...data,
-            }),
-          );
+
         });
       }
     } else {
