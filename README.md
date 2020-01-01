@@ -1,9 +1,10 @@
-# ! WIP !
+# ! work in progress !
 
 # SocommuJS `SocketCommunication` 
-Christoph Ehlers 12/2019
+Christoph Ehlers 19/20
 
 ## Install
+    npm install socommujs
 
 ## Using 
 
@@ -29,5 +30,22 @@ Christoph Ehlers 12/2019
     
     myServer.addPlugin(new AuthPlugin());
     myServer.listen();
+
+### Client
+
+## API
+
+### Server 
+- addEventListener
+- addPlugin
+- Eventhandler
+- getPort
+- getState
+- HttpServer
+- listen
+- plugins
+- setPort
+- WebsocketServer
+
 
 ### Client
