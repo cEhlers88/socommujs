@@ -46,17 +46,11 @@ export default class Server {
     this.DataHandler.setData('_plugins', plugins);
     return this;
   }
-  public get Eventhandler(): Eventhandler {
-    return this.DataHandler.getData('_Eventhandler');
-  }
   public getPort(): number {
     return this.DataHandler.getDataSave('_port', 2607);
   }
   public getState(): EServerState {
     return this.DataHandler.getDataSave('_state', EServerState.unknown);
-  }
-  public get HttpServer(): http.Server {
-    return this.DataHandler.getData('_HttpServer');
   }
   public listen(port?: number) {
     if (
@@ -80,25 +74,20 @@ export default class Server {
       this._log('Server start failed', ELogLevel.error, e);
     }
   }
-  public get plugins(): Serverplugin[] {
-    return this.DataHandler.getDataSave('_plugins', []);
-  }
   public setPort(newValue: number) {
     this.DataHandler.setData('_port', newValue);
-  }
-  public get WebsocketServer(): websocket.server {
-    return this.DataHandler.getData('_WebsocketServer');
   }
 
   private _init() {
     const self = this;
     const httpServer = http.createServer();
+    const WebsocketServer = new websocket.server({ httpServer });
     this.DataHandler.setMultipleData({
       _HttpServer: httpServer,
-      _WebsocketServer: new websocket.server({ httpServer }),
+      _WebsocketServer: WebsocketServer,
     });
 
-    this.WebsocketServer.on('request', (request: any) => {
+    WebsocketServer.on('request', (request: any) => {
       self.Eventhandler.dispatch(getServereventString(EServerEvent.clientWillConnect), request);
     });
     this.DataHandler.setData('_state', EServerState.initialized);
@@ -111,5 +100,14 @@ export default class Server {
     if (this.getState() === EServerState.listening) {
       this.plugins.map(Plugin => Plugin.run());
     }
+  }
+  private get Eventhandler(): Eventhandler {
+    return this.DataHandler.getData('_Eventhandler');
+  }
+  private get HttpServer(): http.Server {
+    return this.DataHandler.getData('_HttpServer');
+  }
+  private get plugins(): Serverplugin[] {
+    return this.DataHandler.getDataSave('_plugins', []);
   }
 }
