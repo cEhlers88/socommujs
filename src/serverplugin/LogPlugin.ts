@@ -6,18 +6,21 @@ export default class extends Serverplugin {
   constructor() {
     super();
     this.setName('LogPlugin');
+    this.setSettingValue('Log Debug',true);
+    this.setSettingValue('Log Info',true);
   }
-  public getListenEvents(): EServerEvent[] {
-    return [EServerEvent.clientWillConnect];
+  public getListenEvents(): EServerEvent[]|string {
+    return "*";
   }
   public handleEvent(event: EServerEvent, eventProps?: unknown): void {
-    this.log('logEvent',ELogLevel.debug,getServereventString(event));
+    this.log('Event',ELogLevel.debug,getServereventString(event));
     switch (event) {
       case EServerEvent.clientWillConnect:
 
         break;
     }
   }
+
   public run(data?: unknown): void {
     let didNothing: boolean = true;
     didNothing = false;

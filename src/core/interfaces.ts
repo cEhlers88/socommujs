@@ -7,6 +7,7 @@ export interface IClientinfo {
   id: string;
   login: string;
   loginTimestamp: Date;
+  messageHandle:CallableFunction;
 }
 export interface ILogInfo {
   additionals?:any,
@@ -21,11 +22,9 @@ export interface IPlugininfo {
   name: string;
   description: string;
   data: IDataEntry[];
-  settings: Array<{ name: string; value: string | number }>;
+  settings: IPluginsettingEntry[];
 }
-export interface IPluginsettingEntry {
-  name: string;
-  value: string | number;
+export interface IPluginsettingEntry extends IDataEntry{
   valueIsOptionIndex?: boolean;
   options?: string[];
   callback?: (props?: unknown) => void;

@@ -70,7 +70,7 @@ export default class Server {
       this.HttpServer.listen(this.port);
       this.DataHandler.setData('_state', EServerState.listening);
       this.Eventhandler.dispatch(getServereventString(EServerEvent.serverStart));
-      this._log('Server startet (' + this.plugins.length + ')', ELogLevel.info);
+      this._log('Server startet', ELogLevel.info);
     } catch (e) {
       this.DataHandler.setData('_state', EServerState.error);
       this._log('Server start failed', ELogLevel.error, e);
