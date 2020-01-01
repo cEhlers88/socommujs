@@ -13,6 +13,7 @@ Christoph Ehlers 19/20
 - Basic Example
 
 
+
     import Server from "socommujs/dist/Server";
 
     const port = 2607; // this is the default port
@@ -20,7 +21,9 @@ Christoph Ehlers 19/20
     
     myServer.listen(port);
     
+    
 - Using Plugins
+
 
 
     import Server from "socommujs/dist/Server";
@@ -30,6 +33,7 @@ Christoph Ehlers 19/20
     
     myServer.addPlugin(new AuthPlugin());
     myServer.listen();
+    
 
 ### Client
 
@@ -38,14 +42,10 @@ Christoph Ehlers 19/20
 ### Server 
 - addEventListener
 - addPlugin
-- Eventhandler
 - getPort
 - getState
-- HttpServer
 - listen
-- plugins
 - setPort
-- WebsocketServer
 
 
 ### Client
@@ -53,4 +53,3 @@ Christoph Ehlers 19/20
 - send
 - sendRequest
 - on
-- Socket
