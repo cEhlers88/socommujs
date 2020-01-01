@@ -17,6 +17,7 @@ export interface ILogInfo {
 export interface IMessage {
   message: string;
   data?: IDataEntry[];
+  requestId?:string;
 }
 export interface IPlugininfo {
   name: string;
@@ -31,6 +32,8 @@ export interface IPluginsettingEntry extends IDataEntry {
   props?: unknown;
 }
 export interface IResponse {
+  isResponse:boolean;
   request: IMessage;
+  requestId:string;
   response: IMessage & { requestId: string };
 }

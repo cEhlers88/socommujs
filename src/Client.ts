@@ -1,6 +1,7 @@
 import Eventhandler from '@cehlers88/ceutils/dist/Eventhandler';
 import { IMessageEvent, w3cwebsocket } from 'websocket';
 import { ELogLevel } from './core/enums';
+import {IResponse} from "./core/interfaces";
 
 export default class {
   private Websocket: w3cwebsocket | null = null;
@@ -86,7 +87,7 @@ export default class {
         self.Socket.onmessage = (message: IMessageEvent) => {
           try {
             // @ts-ignore
-            const data = JSON.parse(message.data);
+            const data:IResponse= JSON.parse(message.data);
             if (data.isResponse && data.isResponse === true) {
               self.requestsStack = self.requestsStack.filter(stackItem => {
                 let keep = true;
@@ -101,6 +102,7 @@ export default class {
               self.EvtHandler.dispatch('message', message.data);
             }
           } catch (e) {
+            console.error(e);
             self.EvtHandler.dispatch('log', {
               logLevel: ELogLevel.error,
               logMessage: 'Error',

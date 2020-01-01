@@ -13,9 +13,11 @@ export default class extends Serverplugin {
     return '*';
   }
   public handleEvent(event: EServerEvent, eventProps?: unknown): void {
-    this.log('Event', ELogLevel.debug, getServereventString(event));
     switch (event) {
-      case EServerEvent.clientWillConnect:
+      case EServerEvent.getUnauthenticatedRequest:
+        this.log('Event', ELogLevel.debug, eventProps);
+      default:
+        this.log('Event', ELogLevel.debug, getServereventString(event));
         break;
     }
   }

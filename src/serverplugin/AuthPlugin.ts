@@ -1,7 +1,7 @@
 import { IDataEntry } from '@cehlers88/ceutils/dist/interfaces';
 import Clientmanager from '../Clientmanager';
 import { ELogLevel, EServerEvent } from '../core/enums';
-import { IClientinfo, IMessage } from '../core/interfaces';
+import {IClientinfo, IMessage, IResponse} from '../core/interfaces';
 import { Authenticate, UserExist, Version } from '../core/requestMessages';
 import Serverplugin from '../core/Serverplugin';
 import { getServereventString } from '../core/utils';
@@ -34,8 +34,8 @@ export default class extends Serverplugin {
           try {
             const dataRaw = JSON.parse(request.utf8Data);
             self.DataHandler.getData('_Serverdata')._Eventhandler.dispatch(
-              getServereventString(EServerEvent.getUnauthenticatedRequest),
-              dataRaw,
+                getServereventString(EServerEvent.getUnauthenticatedRequest),
+                dataRaw
             );
             if (!self.handleUnauthorizedMessage(dataRaw, newClient)) {
               self.log('Unknown clientMessage', ELogLevel.warning, dataRaw);
@@ -76,6 +76,18 @@ export default class extends Serverplugin {
               JSON.parse(request.utf8Data),
             );
           };
+          const response:IResponse={
+            request:message,
+            isResponse:true,
+            requestId:(message.requestId?message.requestId:''),
+            response:{
+              data:[{key:'result',value:true}],
+              message:"",
+              requestId:(message.requestId?message.requestId:'')
+            }
+          };
+          client.Connection.send(JSON.stringify(response));
+          self.log('send response');
         }
         break;
       case UserExist:
