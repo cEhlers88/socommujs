@@ -1,5 +1,5 @@
 import { IDataEntry } from '@cehlers88/ceutils/dist/interfaces';
-import {ELogLevel} from "./enums";
+import { ELogLevel } from './enums';
 export interface IClientinfo {
   data?: IDataEntry[];
   Connection: any;
@@ -7,11 +7,12 @@ export interface IClientinfo {
   id: string;
   login: string;
   loginTimestamp: Date;
+  messageHandle: CallableFunction;
 }
 export interface ILogInfo {
-  additionals?:any,
-  level:ELogLevel,
-  message:string,
+  additionals?: any;
+  level: ELogLevel;
+  message: string;
 }
 export interface IMessage {
   message: string;
@@ -21,11 +22,9 @@ export interface IPlugininfo {
   name: string;
   description: string;
   data: IDataEntry[];
-  settings: Array<{ name: string; value: string | number }>;
+  settings: IPluginsettingEntry[];
 }
-export interface IPluginsettingEntry {
-  name: string;
-  value: string | number;
+export interface IPluginsettingEntry extends IDataEntry {
   valueIsOptionIndex?: boolean;
   options?: string[];
   callback?: (props?: unknown) => void;

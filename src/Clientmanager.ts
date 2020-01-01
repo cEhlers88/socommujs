@@ -16,6 +16,7 @@ export default class Clientmanager {
         .substr(2, 15),
       login: '',
       loginTimestamp: new Date(),
+      messageHandle: () => false,
       roles: ['GUEST'],
     };
   }

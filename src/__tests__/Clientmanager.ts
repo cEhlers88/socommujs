@@ -1,3 +1,4 @@
+// @ts-ignore
 import Clientmanager from '../Clientmanager';
 let ClientmanagerInstance: Clientmanager;
 
