@@ -74,9 +74,6 @@ export default class Server {
       this._log('Server start failed', ELogLevel.error, e);
     }
   }
-  public get plugins(): Serverplugin[] {
-    return this.DataHandler.getDataSave('_plugins', []);
-  }
   public setPort(newValue: number) {
     this.DataHandler.setData('_port', newValue);
   }
@@ -109,5 +106,8 @@ export default class Server {
   }
   private get HttpServer(): http.Server {
     return this.DataHandler.getData('_HttpServer');
+  }
+  private get plugins(): Serverplugin[] {
+    return this.DataHandler.getDataSave('_plugins', []);
   }
 }
