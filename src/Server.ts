@@ -86,19 +86,17 @@ export default class Server {
   public setPort(newValue: number) {
     this.DataHandler.setData('_port', newValue);
   }
-  public get WebsocketServer(): websocket.server {
-    return this.DataHandler.getData('_WebsocketServer');
-  }
 
   private _init() {
     const self = this;
     const httpServer = http.createServer();
+    const WebsocketServer = new websocket.server({ httpServer });
     this.DataHandler.setMultipleData({
       _HttpServer: httpServer,
-      _WebsocketServer: new websocket.server({ httpServer }),
+      _WebsocketServer: WebsocketServer,
     });
 
-    this.WebsocketServer.on('request', (request: any) => {
+    WebsocketServer.on('request', (request: any) => {
       self.Eventhandler.dispatch(getServereventString(EServerEvent.clientWillConnect), request);
     });
     this.DataHandler.setData('_state', EServerState.initialized);
