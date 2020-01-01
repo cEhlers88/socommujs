@@ -46,9 +46,6 @@ export default class Server {
     this.DataHandler.setData('_plugins', plugins);
     return this;
   }
-  public get Eventhandler(): Eventhandler {
-    return this.DataHandler.getData('_Eventhandler');
-  }
   public getPort(): number {
     return this.DataHandler.getDataSave('_port', 2607);
   }
@@ -109,5 +106,8 @@ export default class Server {
     if (this.getState() === EServerState.listening) {
       this.plugins.map(Plugin => Plugin.run());
     }
+  }
+  private get Eventhandler(): Eventhandler {
+    return this.DataHandler.getData('_Eventhandler');
   }
 }
