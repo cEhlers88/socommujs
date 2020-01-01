@@ -49,3 +49,8 @@ Christoph Ehlers 19/20
 
 
 ### Client
+- connect
+- send
+- sendRequest
+- on
+- Socket
