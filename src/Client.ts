@@ -1,7 +1,7 @@
 import Eventhandler from '@cehlers88/ceutils/dist/Eventhandler';
 import { IMessageEvent, w3cwebsocket } from 'websocket';
 import { ELogLevel } from './core/enums';
-import {IResponse} from "./core/interfaces";
+import { IResponse } from './core/interfaces';
 
 export default class {
   private Websocket: w3cwebsocket | null = null;
@@ -28,7 +28,7 @@ export default class {
       this.serverport = port;
     }
 
-    this.Websocket = new w3cwebsocket("ws://"+this.serverhost + ':' + this.serverport);
+    this.Websocket = new w3cwebsocket('ws://' + this.serverhost + ':' + this.serverport);
     this.Websocket.onopen = () => {
       self.EvtHandler.dispatch('open');
       if (onOpen) {
@@ -60,7 +60,7 @@ export default class {
         );
       } else {
         this.connect(this.serverhost, this.serverport, () => {
-
+          const doNothing:boolean=true;
         });
       }
     } else {
@@ -77,7 +77,7 @@ export default class {
         self.Websocket.onmessage = (message: IMessageEvent) => {
           try {
             // @ts-ignore
-            const data:IResponse= JSON.parse(message.data);
+            const data: IResponse = JSON.parse(message.data);
             if (data.isResponse && data.isResponse === true) {
               self.requestsStack = self.requestsStack.filter(stackItem => {
                 let keep = true;
@@ -92,7 +92,6 @@ export default class {
               self.EvtHandler.dispatch('message', message.data);
             }
           } catch (e) {
-            console.error(e);
             self.EvtHandler.dispatch('log', {
               logLevel: ELogLevel.error,
               logMessage: 'Error',
