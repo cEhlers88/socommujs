@@ -1,5 +1,3 @@
-# ! work in progress !
-
 # SocommuJS `SocketCommunication` 
 Christoph Ehlers 19/20
 
@@ -9,6 +7,7 @@ Christoph Ehlers 19/20
 ## Using 
 
 ### Server
+
 
 - Basic Example
 
@@ -20,6 +19,7 @@ Christoph Ehlers 19/20
     const myServer = new Server();
     
     myServer.listen(port);
+    
     
     
 - Using Plugins
