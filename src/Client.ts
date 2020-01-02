@@ -60,7 +60,7 @@ export default class {
         );
       } else {
         this.connect(this.serverhost, this.serverport, () => {
-          const doNothing:boolean=true;
+          const doNothing: boolean = true;
         });
       }
     } else {
