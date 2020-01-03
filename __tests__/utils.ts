@@ -1,5 +1,5 @@
-import { getServereventString } from '../core/utils';
-import { EServerEvent } from '../core/enums';
+import { getServereventString } from '../src/core/utils';
+import { EServerEvent } from '../src/core/enums';
 
 test('Resolving some serverevent string', () => {
   expect(getServereventString(EServerEvent.getClientRequest)).toBe('getClientRequest');

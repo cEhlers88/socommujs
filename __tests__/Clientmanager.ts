@@ -1,5 +1,5 @@
 // @ts-ignore
-import Clientmanager from '../Clientmanager';
+import Clientmanager from '../src/Clientmanager';
 let ClientmanagerInstance: Clientmanager;
 
 beforeEach(() => {
