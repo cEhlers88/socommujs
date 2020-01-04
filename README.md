@@ -29,7 +29,6 @@ Christoph Ehlers 19/20
     
     myServer.addPlugin(new AuthPlugin());
     myServer.listen();
-    
 
 ### Client
 
