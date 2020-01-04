@@ -11,8 +11,9 @@
   "scripts": {
     "build": "tsc & tsc --p tsconfig.root.json",
     "start:watch": "ts-node-dev --watch",
-    "test": "jest --config jestconfig.json",
+    "test": "npm run jest && npm run lint",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
+    "jest": "jest --config jestconfig.json",
     "lint": "tslint -p tsconfig.json",
     "prepare": "npm run build",
     "prepublishOnly": "npm test && npm run lint",
