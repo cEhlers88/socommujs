@@ -39,7 +39,9 @@ export default class {
     this._socketSend({ ...data, destinationClientId });
   }
   public sendRequest(data: any, responseFunction: CallableFunction) {
-    const reqId = Math.random().toString(36).substr(2, 13);
+    const reqId = Math.random()
+      .toString(36)
+      .substr(2, 13);
     this.requestsStack.push({ requestId: reqId, callback: responseFunction });
     this._socketSend({ ...data, requestId: reqId });
   }
