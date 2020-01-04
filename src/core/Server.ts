@@ -2,8 +2,8 @@ import Datahandler from '@cehlers88/ceutils/dist/Datahandler';
 import Eventhandler from '@cehlers88/ceutils/dist/Eventhandler';
 import * as http from 'http';
 import * as websocket from 'websocket';
-import Clientmanager from './Clientmanager';
 import { ELogLevel, EServerEvent, EServerState } from '../lib/enums';
+import Clientmanager from './Clientmanager';
 import Serverplugin from './Serverplugin';
 import { getServereventString } from './utils';
 

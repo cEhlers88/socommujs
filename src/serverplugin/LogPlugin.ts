@@ -1,6 +1,6 @@
-import { ELogLevel, EServerEvent } from '../lib/enums';
 import Serverplugin from '../core/Serverplugin';
 import { getServereventString } from '../core/utils';
+import { ELogLevel, EServerEvent } from '../lib/enums';
 
 export default class extends Serverplugin {
   constructor() {

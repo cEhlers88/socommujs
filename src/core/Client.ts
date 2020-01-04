@@ -1,7 +1,7 @@
 import Eventhandler from '@cehlers88/ceutils/dist/Eventhandler';
 import { IMessageEvent, w3cwebsocket } from 'websocket';
-import { ELogLevel } from '../lib/enums';
 import IResponse from '../interfaces/response';
+import { ELogLevel } from '../lib/enums';
 
 export default class {
   private Websocket: w3cwebsocket | null = null;

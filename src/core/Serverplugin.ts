@@ -1,7 +1,8 @@
 import Datahandler from '@cehlers88/ceutils/dist/Datahandler';
 import Eventhandler from '@cehlers88/ceutils/dist/Eventhandler';
+import IPlugininfo from '../interfaces/plugininfo';
+import IPluginsettingEntry from '../interfaces/pluginsettingEntry';
 import { ELogLevel, EPluginState, EServerEvent } from '../lib/enums';
-import { IPlugininfo, IPluginsettingEntry } from '../interfaces';
 import { getServereventString } from './utils';
 
 export default abstract class Serverplugin {
