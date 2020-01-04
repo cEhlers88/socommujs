@@ -1,4 +1,4 @@
-import LogPlugin from '../serverplugin/LogPlugin';
+import LogPlugin from '../src/serverplugin/LogPlugin';
 
 test('LogPlugin', () => {
   const logPluginInstance = new LogPlugin();

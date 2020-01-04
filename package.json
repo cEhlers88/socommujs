@@ -1,6 +1,6 @@
 {
   "name": "socommujs",
-  "version": "2.0.7",
+  "version": "2.0.9",
   "description": "socket communication",
   "repository": {
     "type": "git",
@@ -9,10 +9,11 @@
   "main": "index.ts",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc & tsc --p tsconfig.root.json",
     "start:watch": "ts-node-dev --watch",
-    "test": "jest --config jestconfig.json",
+    "test": "npm run jest && npm run lint",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
+    "jest": "jest --config jestconfig.json",
     "lint": "tslint -p tsconfig.json",
     "prepare": "npm run build",
     "prepublishOnly": "npm test && npm run lint",

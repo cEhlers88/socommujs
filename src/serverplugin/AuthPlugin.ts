@@ -1,10 +1,12 @@
 import { IDataEntry } from '@cehlers88/ceutils/dist/interfaces';
-import Clientmanager from '../Clientmanager';
-import { ELogLevel, EServerEvent } from '../core/enums';
-import {IClientinfo, IMessage, IResponse} from '../core/interfaces';
-import { Authenticate, UserExist, Version } from '../core/requestMessages';
+import Clientmanager from '../core/Clientmanager';
 import Serverplugin from '../core/Serverplugin';
 import { getServereventString } from '../core/utils';
+import IClientinfo from '../interfaces/clientinfo';
+import IMessage from '../interfaces/message';
+import IRespons from '../interfaces/response';
+import { ELogLevel, EServerEvent } from '../lib/enums';
+import { Authenticate, UserExist, Version } from '../lib/requestMessages';
 
 export default class extends Serverplugin {
   constructor() {
@@ -34,8 +36,8 @@ export default class extends Serverplugin {
           try {
             const dataRaw = JSON.parse(request.utf8Data);
             self.DataHandler.getData('_Serverdata')._Eventhandler.dispatch(
-                getServereventString(EServerEvent.getUnauthenticatedRequest),
-                dataRaw
+              getServereventString(EServerEvent.getUnauthenticatedRequest),
+              dataRaw,
             );
             if (!self.handleUnauthorizedMessage(dataRaw, newClient)) {
               self.log('Unknown clientMessage', ELogLevel.warning, dataRaw);
@@ -76,15 +78,15 @@ export default class extends Serverplugin {
               JSON.parse(request.utf8Data),
             );
           };
-          const response:IResponse={
-            request:message,
-            isResponse:true,
-            requestId:(message.requestId?message.requestId:''),
-            response:{
-              data:[{key:'result',value:true}],
-              message:"",
-              requestId:(message.requestId?message.requestId:'')
-            }
+          const response: IResponse = {
+            isResponse: true,
+            request: message,
+            requestId: message.requestId ? message.requestId : '',
+            response: {
+              data: [{ key: 'result', value: true }],
+              message: '',
+              requestId: message.requestId ? message.requestId : '',
+            },
           };
           client.Connection.send(JSON.stringify(response));
           self.log('send response');

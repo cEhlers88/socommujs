@@ -1,7 +1,7 @@
 import Eventhandler from '@cehlers88/ceutils/dist/Eventhandler';
 import { IMessageEvent, w3cwebsocket } from 'websocket';
-import { ELogLevel } from './core/enums';
-import {IResponse} from "./core/interfaces";
+import IResponse from '../interfaces/response';
+import { ELogLevel } from '../lib/enums';
 
 export default class {
   private Websocket: w3cwebsocket | null = null;
@@ -13,7 +13,6 @@ export default class {
   constructor() {
     this.Websocket = null;
     this.EvtHandler = new Eventhandler();
-
     this._bindEvents();
   }
 
@@ -28,13 +27,12 @@ export default class {
     if (port) {
       this.serverport = port;
     }
-
-    this.Websocket = new w3cwebsocket(this.serverhost + ':' + this.serverport);
+    if (onOpen) {
+      this.EvtHandler.addListener('open', onOpen);
+    }
+    this.Websocket = new w3cwebsocket('ws://' + this.serverhost + ':' + this.serverport);
     this.Websocket.onopen = () => {
       self.EvtHandler.dispatch('open');
-      if (onOpen) {
-        onOpen();
-      }
     };
   }
   public send(data: any, destinationClientId: string | null = null) {
@@ -43,34 +41,27 @@ export default class {
   public sendRequest(data: any, responseFunction: CallableFunction) {
     const reqId = Math.random()
       .toString(36)
-      .substr(2, 9);
+      .substr(2, 13);
     this.requestsStack.push({ requestId: reqId, callback: responseFunction });
     this._socketSend({ ...data, requestId: reqId });
   }
   public on(eventName: string, callableFunction: CallableFunction) {
-    this.EvtHandler.addListener(eventName, callableFunction);
-  }
-  public get Socket(): w3cwebsocket | null {
-    return this.Websocket;
+    this.EvtHandler.on(eventName, callableFunction);
   }
 
   private _socketSend(data: any) {
-    const self = this;
+    const valueToSend =
+      typeof data === 'string'
+        ? data
+        : JSON.stringify({
+            ...data,
+          });
     if (this.Websocket) {
       if (this.Websocket.readyState === 1) {
-        this.Websocket.send(
-          JSON.stringify({
-            ...data,
-          }),
-        );
+        this.Websocket.send(valueToSend);
       } else {
         this.connect(this.serverhost, this.serverport, () => {
-          // @ts-ignore
-          self._Socket.send(
-            JSON.stringify({
-              ...data,
-            }),
-          );
+          const doNothing: boolean = true;
         });
       }
     } else {
@@ -83,11 +74,11 @@ export default class {
   private _bindEvents() {
     const self = this;
     this.EvtHandler.addListener('open', () => {
-      if (self.Socket) {
-        self.Socket.onmessage = (message: IMessageEvent) => {
+      if (self.Websocket) {
+        self.Websocket.onmessage = (message: IMessageEvent) => {
           try {
             // @ts-ignore
-            const data:IResponse= JSON.parse(message.data);
+            const data: IResponse = JSON.parse(message.data);
             if (data.isResponse && data.isResponse === true) {
               self.requestsStack = self.requestsStack.filter(stackItem => {
                 let keep = true;
@@ -102,14 +93,13 @@ export default class {
               self.EvtHandler.dispatch('message', message.data);
             }
           } catch (e) {
-            console.error(e);
             self.EvtHandler.dispatch('log', {
               logLevel: ELogLevel.error,
               logMessage: 'Error',
             });
           }
         };
-        self.Socket.onclose = () => {
+        self.Websocket.onclose = () => {
           self.EvtHandler.dispatch('close', null);
         };
       }
