@@ -5,6 +5,11 @@ Christoph Ehlers 19/20
 - Plugin based Websocket-Server
 - Websocket-Client
 
+- [ ] Complete documentation
+    - [ ] Basic Usage
+    - [ ] Create Serverplugin
+    - [ ] Create Authenticationplugin
+    
 ## Install
     npm install socommujs
 
