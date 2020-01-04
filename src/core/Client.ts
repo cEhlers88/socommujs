@@ -1,7 +1,7 @@
 import Eventhandler from '@cehlers88/ceutils/dist/Eventhandler';
 import { IMessageEvent, w3cwebsocket } from 'websocket';
 import { ELogLevel } from '../lib/enums';
-import { IResponse } from '../lib/interfaces';
+import IResponse from '../interfaces/response';
 
 export default class {
   private Websocket: w3cwebsocket | null = null;
@@ -27,13 +27,12 @@ export default class {
     if (port) {
       this.serverport = port;
     }
-
+    if (onOpen) {
+      this.EvtHandler.addListener('open', onOpen);
+    }
     this.Websocket = new w3cwebsocket('ws://' + this.serverhost + ':' + this.serverport);
     this.Websocket.onopen = () => {
       self.EvtHandler.dispatch('open');
-      if (onOpen) {
-        onOpen();
-      }
     };
   }
   public send(data: any, destinationClientId: string | null = null) {
@@ -51,13 +50,15 @@ export default class {
   }
 
   private _socketSend(data: any) {
+    const valueToSend =
+      typeof data === 'string'
+        ? data
+        : JSON.stringify({
+            ...data,
+          });
     if (this.Websocket) {
       if (this.Websocket.readyState === 1) {
-        this.Websocket.send(
-          JSON.stringify({
-            ...data,
-          }),
-        );
+        this.Websocket.send(valueToSend);
       } else {
         this.connect(this.serverhost, this.serverport, () => {
           const doNothing: boolean = true;
