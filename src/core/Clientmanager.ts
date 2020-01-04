@@ -1,4 +1,4 @@
-import { IClientinfo } from './core/interfaces';
+import { IClientinfo } from '../lib/interfaces';
 
 export default class Clientmanager {
   private clientinfos: IClientinfo[] = [];

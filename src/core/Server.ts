@@ -3,9 +3,9 @@ import Eventhandler from '@cehlers88/ceutils/dist/Eventhandler';
 import * as http from 'http';
 import * as websocket from 'websocket';
 import Clientmanager from './Clientmanager';
-import { ELogLevel, EServerEvent, EServerState } from './core/enums';
-import Serverplugin from './core/Serverplugin';
-import { getServereventString } from './core/utils';
+import { ELogLevel, EServerEvent, EServerState } from '../lib/enums';
+import Serverplugin from './Serverplugin';
+import { getServereventString } from './utils';
 
 export default class Server {
   private DataHandler: Datahandler = new Datahandler();
