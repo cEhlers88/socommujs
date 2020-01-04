@@ -3,7 +3,7 @@
 # SocommuJS `SocketCommunication` 
 Christoph Ehlers 19/20
 - Plugin based Websocket-Server
-- Websoket-Client
+- Websocket-Client
 
 ## Install
     npm install socommujs
