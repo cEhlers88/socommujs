@@ -1,4 +1,4 @@
-import { ELogLevel, EServerEvent } from '../core/enums';
+import { ELogLevel, EServerEvent } from '../lib/enums';
 import Serverplugin from '../core/Serverplugin';
 
 export default class extends Serverplugin {

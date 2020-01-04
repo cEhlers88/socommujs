@@ -2,6 +2,8 @@
 
 # SocommuJS `SocketCommunication` 
 Christoph Ehlers 19/20
+- Plugin based Websocket-Server
+- Websocket-Client
 
 ## Install
     npm install socommujs
@@ -10,9 +12,7 @@ Christoph Ehlers 19/20
 
 ### Server
 
-- Basic Example
-
-
+#### Basic Example
     import Server from "socommujs/dist/Server";
 
     const port = 2607; // this is the default port
@@ -20,16 +20,16 @@ Christoph Ehlers 19/20
     
     myServer.listen(port);
     
-- Using Plugins
-
-
-    import Server from "socommujs/dist/Server";
+    
+#### Using Plugins
+    import Server from "socommujs/dist/Server";    
     import AuthPlugin from "socommujs/dist/serverplugin/AuthPlugin";
     
     const myServer = new Server();
     
     myServer.addPlugin(new AuthPlugin());
     myServer.listen();
+    
 
 ### Client
 

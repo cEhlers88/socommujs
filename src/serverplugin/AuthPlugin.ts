@@ -1,8 +1,8 @@
 import { IDataEntry } from '@cehlers88/ceutils/dist/interfaces';
-import Clientmanager from '../Clientmanager';
-import { ELogLevel, EServerEvent } from '../core/enums';
-import { IClientinfo, IMessage, IResponse } from '../core/interfaces';
-import { Authenticate, UserExist, Version } from '../core/requestMessages';
+import Clientmanager from '../core/Clientmanager';
+import { ELogLevel, EServerEvent } from '../lib/enums';
+import { IClientinfo, IMessage, IResponse } from '../interfaces';
+import { Authenticate, UserExist, Version } from '../lib/requestMessages';
 import Serverplugin from '../core/Serverplugin';
 import { getServereventString } from '../core/utils';
 

@@ -1,4 +1,4 @@
-import { ERequestMessage, EServerEvent } from './enums';
+import { ERequestMessage, EServerEvent } from '../lib/enums';
 
 export const getRequestMessageString = (Event: ERequestMessage | string): string => {
   if (typeof Event === 'string') {
