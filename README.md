@@ -49,6 +49,7 @@ myServer.listen();
 ### Server 
 - addEventListener(event, properties)
 - addPlugin(plugin)
+- close
 - Eventhandler
 - getPort()
 - getState()
@@ -59,6 +60,7 @@ myServer.listen();
 - WebsocketServer
 
 ### Client
+- close
 - connect
 - send
 - sendRequest
