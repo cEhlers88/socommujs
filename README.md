@@ -5,7 +5,10 @@ Christoph Ehlers 19/20
 
 ###### ! work in progress !
 - [ ] Complete documentation
+    - [X] Installation
     - [ ] Basic Usage
+        - [X] Server  
+        - [ ] Client  
     - [ ] Create Serverplugin
     - [ ] Create Authenticationplugin
     
@@ -14,7 +17,7 @@ Christoph Ehlers 19/20
 npm install socommujs
 ```
 
-## Using 
+## Using Socommujs
 
 ### Server
 
@@ -55,10 +58,48 @@ myServer.listen();
 - setPort(port)
 - WebsocketServer
 
-
 ### Client
 - connect
 - send
 - sendRequest
 - on
 - Socket
+
+## Events
+
+### Serverevents
+- clientConnected
+- clientDisconnected
+- clientWillConnect
+- getAuthenticatedRequest
+- getClientRequest
+- getUnauthenticatedRequest
+- log
+- serverInitialized
+- serverStart
+- serverStop
+
+###### Example listen Serverevent directly 
+`Example 1 (using eventname):` 
+```javascript
+import Server from "socommujs/dist/Server";
+
+const myServer = new Server();
+
+myServer.addEventListener('serverStart',()=>{
+    // do something
+});
+```
+`Example 2 (using EServerEvent-Enum):`
+```javascript
+import Server from "socommujs/dist/Server";
+import {EServerEvent} from "socommujs/dist/lib/enums";
+
+const myServer = new Server();
+
+myServer.addEventListener(EServerEvent.serverStart,()=>{
+    // do something
+});
+```
+
+> To see how to use Serverplugins to handle Serverevents click [here](https://github.com/cEhlers88/socommujs/blob/Documentation/Serverplugin.md#handle-serverevents).
