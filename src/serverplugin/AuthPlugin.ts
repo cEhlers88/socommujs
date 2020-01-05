@@ -4,7 +4,6 @@ import Serverplugin from '../core/Serverplugin';
 import { getServereventString } from '../core/utils';
 import IClientinfo from '../interfaces/clientinfo';
 import IMessage from '../interfaces/message';
-import IRespons from '../interfaces/response';
 import { ELogLevel, EServerEvent } from '../lib/enums';
 import { Authenticate, UserExist, Version } from '../lib/requestMessages';
 
