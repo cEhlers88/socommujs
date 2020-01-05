@@ -13,6 +13,7 @@ Christoph Ehlers 19/20
 ```shell script
 npm install socommujs
 ```
+
 ## Using 
 
 ### Server
@@ -25,8 +26,8 @@ const port = 2607; // this is the default port
 const myServer = new Server();
 
 myServer.listen(port);
-```
-    
+``` 
+
 #### Using Plugins
 ```javascript
 import Server from "socommujs/dist/Server";    
@@ -43,15 +44,15 @@ myServer.listen();
 ## API
 
 ### Server 
-- addEventListener
-- addPlugin
+- addEventListener(event, properties)
+- addPlugin(plugin)
 - Eventhandler
-- getPort
-- getState
+- getPort()
+- getState()
 - HttpServer
-- listen
+- listen([port])
 - plugins
-- setPort
+- setPort(port)
 - WebsocketServer
 
 
