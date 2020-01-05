@@ -102,4 +102,4 @@ myServer.addEventListener(EServerEvent.serverStart,()=>{
 });
 ```
 
-> To see how to use Serverplugins to handle Serverevents click [here](https://github.com/cEhlers88/socommujs/blob/Documentation/Serverplugin.md#handle-serverevents).
+> To see how to use Serverplugins to handle Serverevents click [here](https://github.com/cEhlers88/socommujs/blob/master/Serverplugin.md#handle-serverevents).
