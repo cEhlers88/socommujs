@@ -52,7 +52,10 @@ export default class Server {
     return this;
   }
   public close(){
-    this.DataHandler.getData("_WebsocketServer").closeAllConnections();
+    try {
+      this.DataHandler.getData("_HttpServer").close();
+      this.DataHandler.getData("_WebsocketServer").closeAllConnections();
+    }catch(e){}
   }
   public getPort(): number {
     return this.DataHandler.getDataSave('_port', 2607);
