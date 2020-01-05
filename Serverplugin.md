@@ -90,6 +90,6 @@ handleEvent(event,props){
     }
 }
 ```
-> [Here](https://github.com/cEhlers88/socommujs/blob/Documentation/README.md#events)'s a list of all Serverevents.
+> [Here](https://github.com/cEhlers88/socommujs/blob/master/README.md#events)'s a list of all Serverevents.
 
 ## Socommujs-plugins
