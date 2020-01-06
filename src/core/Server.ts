@@ -9,6 +9,7 @@ import { getServereventString } from './utils';
 
 export default class Server {
   private DataHandler: Datahandler = new Datahandler();
+  private runintervalHandle:number|null = null;
 
   constructor() {
     this.DataHandler.setMultipleData({
@@ -76,6 +77,12 @@ export default class Server {
   }
   public setPort(newValue: number) {
     this.DataHandler.setData('_port', newValue);
+  }
+  public setRunInterval(newIntervalMs:number|null){
+    if(this.runintervalHandle!==null){clearInterval(this.runintervalHandle);}
+    if(newIntervalMs!==null){
+      setInterval(this._runPlugins.bind(this),newIntervalMs);
+    }
   }
 
   private _init() {
