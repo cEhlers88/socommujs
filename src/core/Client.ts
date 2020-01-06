@@ -16,6 +16,14 @@ export default class {
     this._bindEvents();
   }
 
+  public close():void{
+    try{
+      // @ts-ignore
+      this.Websocket.close();
+    }catch (e) {
+
+    }
+  }
   public connect(host: string | null = null, port: number | null = null, onOpen?: CallableFunction): void {
     const self = this;
     if (this.Websocket && this.Websocket.readyState === 1) {

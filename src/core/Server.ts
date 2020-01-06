@@ -31,6 +31,9 @@ export default class Server {
   public addPlugin(newPlugin: Serverplugin): Server {
     const self = this;
     const plugins = this.plugins;
+    if(!(newPlugin instanceof Serverplugin)){
+      throw new Error('Invalid plugin');
+    }
     plugins.push(newPlugin);
     newPlugin.setLogHandle((props: any) => {
       self.Eventhandler.dispatch(getServereventString(EServerEvent.log), props);
@@ -47,6 +50,12 @@ export default class Server {
 
     this.DataHandler.setData('_plugins', plugins);
     return this;
+  }
+  public close(){
+    try {
+      this.DataHandler.getData("_HttpServer").close();
+      this.DataHandler.getData("_WebsocketServer").closeAllConnections();
+    }catch(e){}
   }
   public getPort(): number {
     return this.DataHandler.getDataSave('_port', 2607);
