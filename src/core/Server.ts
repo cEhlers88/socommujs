@@ -31,7 +31,7 @@ export default class Server {
   public addPlugin(newPlugin: Serverplugin): Server {
     const self = this;
     const plugins = this.plugins;
-    if(!(newPlugin instanceof Serverplugin)){
+    if (!(newPlugin instanceof Serverplugin)) {
       throw new Error('Invalid plugin');
     }
     plugins.push(newPlugin);
@@ -51,12 +51,15 @@ export default class Server {
     this.DataHandler.setData('_plugins', plugins);
     return this;
   }
-  public close(){
+  public close(stopPluginRunInterval:boolean=true) {
     try {
-      this.DataHandler.getData("_HttpServer").close();
-      this.DataHandler.getData("_WebsocketServer").closeAllConnections();
-    }catch(e){
-      this.Eventhandler.dispatch('error',e);
+      if(stopPluginRunInterval){
+        this.setRunInterval(null);
+      }
+      this.DataHandler.getData('_HttpServer').close();
+      this.DataHandler.getData('_WebsocketServer').closeAllConnections();
+    } catch (e) {
+      this.Eventhandler.dispatch('error', e);
     }
   }
   public getPort(): number {

@@ -48,16 +48,21 @@ myServer.listen();
 
 ### Server 
 - addEventListener(event, properties)
+    > Add eventlistener 
 - addPlugin(plugin)
-- close
-- Eventhandler
+    > Add Serverplugin
+- close([stopPluginRunInterval=true])
+    > Close the HttpServer-listening and stop runing serverplugins (to prevent stop runing plugins, you have to set 'stopPluginRunInterval' to 'false')
 - getPort()
+    > Get Serverport
 - getState()
-- HttpServer
+    > Get Serverstate
 - listen([port])
-- plugins
+    > Start listen for incoming connections
 - setPort(port)
-- WebsocketServer
+    > Specify Serverport
+- setRunInterval(newIntervalMs)
+    > Specify interval to run plugins in miliseconds or set to 'null' to disable.
 
 ### Client
 - close
@@ -87,7 +92,7 @@ myServer.listen();
 import Server from "socommujs/dist/Server";
 
 const myServer = new Server();
-
+myServer.EvtHandler
 myServer.addEventListener('serverStart',()=>{
     // do something
 });
