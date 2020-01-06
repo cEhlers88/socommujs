@@ -4,7 +4,7 @@ import * as http from 'http';
 import * as websocket from 'websocket';
 import { ELogLevel, EServerEvent, EServerState } from '../lib/enums';
 import Clientmanager from './Clientmanager';
-import Serverplugin from './Serverplugin';
+import Serverplugin from '../../dist/core/Serverplugin';
 import { getServereventString } from './utils';
 
 export default class Server {
@@ -13,6 +13,7 @@ export default class Server {
   private runintervalHandle: number | null = null;
 
   constructor() {
+    console.log('start');
     this.DataHandler.setMultipleData({
       _Clientmanager: new Clientmanager(),
       _Eventhandler: new Eventhandler(),
@@ -32,7 +33,8 @@ export default class Server {
     const self = this;
     const plugins = this.plugins;
     if (!(newPlugin instanceof Serverplugin)) {
-      throw new Error('Invalid plugin');
+      console.log('Fehler');
+      throw new Error('Invalid plugin!');
     }
     plugins.push(newPlugin);
     newPlugin.setLogHandle((props: any) => {
