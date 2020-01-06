@@ -13,7 +13,6 @@ export default class Server {
   private runintervalHandle: number | null = null;
 
   constructor() {
-    console.log('start');
     this.DataHandler.setMultipleData({
       _Clientmanager: new Clientmanager(),
       _Eventhandler: new Eventhandler(),
@@ -33,7 +32,6 @@ export default class Server {
     const self = this;
     const plugins = this.plugins;
     if (!(newPlugin instanceof Serverplugin)) {
-      console.log('Fehler');
       throw new Error('Invalid plugin!');
     }
     plugins.push(newPlugin);
