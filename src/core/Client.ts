@@ -21,7 +21,7 @@ export default class {
       // @ts-ignore
       this.Websocket.close();
     }catch (e) {
-
+      this.EvtHandler.dispatch('error',e);
     }
   }
   public connect(host: string | null = null, port: number | null = null, onOpen?: CallableFunction): void {

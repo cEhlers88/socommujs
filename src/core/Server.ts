@@ -55,7 +55,9 @@ export default class Server {
     try {
       this.DataHandler.getData("_HttpServer").close();
       this.DataHandler.getData("_WebsocketServer").closeAllConnections();
-    }catch(e){}
+    }catch(e){
+      this.Eventhandler.dispatch('error',e);
+    }
   }
   public getPort(): number {
     return this.DataHandler.getDataSave('_port', 2607);
