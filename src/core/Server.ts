@@ -9,6 +9,8 @@ import { getServereventString } from './utils';
 
 export default class Server {
   private DataHandler: Datahandler = new Datahandler();
+  private isRuningPlugins: boolean = false;
+  private runintervalHandle: number | null = null;
 
   constructor() {
     this.DataHandler.setMultipleData({
@@ -29,6 +31,9 @@ export default class Server {
   public addPlugin(newPlugin: Serverplugin): Server {
     const self = this;
     const plugins = this.plugins;
+    if (!(newPlugin instanceof Serverplugin)) {
+      throw new Error('Invalid plugin');
+    }
     plugins.push(newPlugin);
     newPlugin.setLogHandle((props: any) => {
       self.Eventhandler.dispatch(getServereventString(EServerEvent.log), props);
@@ -45,6 +50,17 @@ export default class Server {
 
     this.DataHandler.setData('_plugins', plugins);
     return this;
+  }
+  public close(stopPluginRunInterval:boolean=true) {
+    try {
+      if(stopPluginRunInterval){
+        this.setRunInterval(null);
+      }
+      this.DataHandler.getData('_HttpServer').close();
+      this.DataHandler.getData('_WebsocketServer').closeAllConnections();
+    } catch (e) {
+      this.Eventhandler.dispatch('error', e);
+    }
   }
   public getPort(): number {
     return this.DataHandler.getDataSave('_port', 2607);
@@ -77,6 +93,14 @@ export default class Server {
   public setPort(newValue: number) {
     this.DataHandler.setData('_port', newValue);
   }
+  public setRunInterval(newIntervalMs: number | null) {
+    if (this.runintervalHandle !== null) {
+      clearInterval(this.runintervalHandle);
+    }
+    if (newIntervalMs !== null && newIntervalMs > 50) {
+      setInterval(this._runPlugins.bind(this), newIntervalMs);
+    }
+  }
 
   private _init() {
     const self = this;
@@ -97,8 +121,10 @@ export default class Server {
     this.Eventhandler.dispatch(getServereventString(EServerEvent.log), { logMessage, logLevel: level, additionals });
   }
   private _runPlugins() {
-    if (this.getState() === EServerState.listening) {
+    if (this.getState() === EServerState.listening && this.isRuningPlugins === false) {
+      this.isRuningPlugins = true;
       this.plugins.map(Plugin => Plugin.run());
+      this.isRuningPlugins = false;
     }
   }
   private get Eventhandler(): Eventhandler {
