@@ -51,9 +51,9 @@ export default class Server {
     this.DataHandler.setData('_plugins', plugins);
     return this;
   }
-  public close(stopPluginRunInterval:boolean=true) {
+  public close(stopPluginRunInterval: boolean = true) {
     try {
-      if(stopPluginRunInterval){
+      if (stopPluginRunInterval) {
         this.setRunInterval(null);
       }
       this.DataHandler.getData('_HttpServer').close();
