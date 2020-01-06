@@ -9,8 +9,8 @@ import { getServereventString } from './utils';
 
 export default class Server {
   private DataHandler: Datahandler = new Datahandler();
-  private isRuningPlugins:boolean=false;
-  private runintervalHandle:number|null = null;
+  private isRuningPlugins: boolean = false;
+  private runintervalHandle: number | null = null;
 
   constructor() {
     this.DataHandler.setMultipleData({
@@ -79,10 +79,12 @@ export default class Server {
   public setPort(newValue: number) {
     this.DataHandler.setData('_port', newValue);
   }
-  public setRunInterval(newIntervalMs:number|null){
-    if(this.runintervalHandle!==null){clearInterval(this.runintervalHandle);}
-    if(newIntervalMs!==null && newIntervalMs>50){
-      setInterval(this._runPlugins.bind(this),newIntervalMs);
+  public setRunInterval(newIntervalMs: number | null) {
+    if (this.runintervalHandle !== null) {
+      clearInterval(this.runintervalHandle);
+    }
+    if (newIntervalMs !== null && newIntervalMs > 50) {
+      setInterval(this._runPlugins.bind(this), newIntervalMs);
     }
   }
 
@@ -105,7 +107,7 @@ export default class Server {
     this.Eventhandler.dispatch(getServereventString(EServerEvent.log), { logMessage, logLevel: level, additionals });
   }
   private _runPlugins() {
-    if (this.getState() === EServerState.listening && this.isRuningPlugins===false) {
+    if (this.getState() === EServerState.listening && this.isRuningPlugins === false) {
       this.isRuningPlugins = true;
       this.plugins.map(Plugin => Plugin.run());
       this.isRuningPlugins = false;
