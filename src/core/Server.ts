@@ -4,8 +4,9 @@ import * as http from 'http';
 import * as websocket from 'websocket';
 import { ELogLevel, EServerEvent, EServerState } from '../lib/enums';
 import Clientmanager from './Clientmanager';
-import Serverplugin from '../../dist/core/Serverplugin';
 import { getServereventString } from './utils';
+import IServerplugin from "../interfaces/serverplugin";
+import Serverplugin from "./Serverplugin";
 
 export default class Server {
   private DataHandler: Datahandler = new Datahandler();
@@ -28,11 +29,12 @@ export default class Server {
     this.Eventhandler.addListener(getServereventString(event), eventProperties);
     return this;
   }
-  public addPlugin(newPlugin: Serverplugin): Server {
+  public addPlugin(newPlugin: any): Server {
     const self = this;
     const plugins = this.plugins;
-    if (!(newPlugin instanceof Serverplugin)) {
-      throw new Error('Invalid plugin!');
+    // @ts-ignore
+    if(!(newPlugin instanceof Serverplugin)){
+      throw Error("Invalid plugin");
     }
     plugins.push(newPlugin);
     newPlugin.setLogHandle((props: any) => {
@@ -62,6 +64,7 @@ export default class Server {
       this.Eventhandler.dispatch('error', e);
     }
   }
+  public getPlugins():IServerplugin[]{return this.plugins;}
   public getPort(): number {
     return this.DataHandler.getDataSave('_port', 2607);
   }
@@ -133,7 +136,7 @@ export default class Server {
   private get HttpServer(): http.Server {
     return this.DataHandler.getData('_HttpServer');
   }
-  private get plugins(): Serverplugin[] {
+  private get plugins(): IServerplugin[] {
     return this.DataHandler.getDataSave('_plugins', []);
   }
 }

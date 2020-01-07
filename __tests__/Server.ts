@@ -1,5 +1,8 @@
 import Server from "../src/core/Server";
 import {EServerState} from "../src/lib/enums";
+import AuthPlugin from "../src/serverplugin/AuthPlugin";
+
+class TestPlugin extends AuthPlugin {}
 
 let myServer:Server;
 beforeEach(()=>{
@@ -32,9 +35,29 @@ describe("Test some Server basics",()=>{
 describe("Test pluginhandling",()=>{
   test("Add invalid plugin should throw an exception",()=>{
     expect(()=>{
-      // @ts-ignore
       myServer.addPlugin({});
     }).toThrowError('Invalid plugin');
+  });
+  test("When added one valid plugin, there should be one plugin",()=>{
+    myServer.addPlugin(new AuthPlugin());
+    expect(myServer.getPlugins().length).toBe(1);
+  });
+  test("When added two valid plugins, there should be two plugins",()=>{
+    myServer.addPlugin(new AuthPlugin());
+    myServer.addPlugin(new AuthPlugin());
+    expect(myServer.getPlugins().length).toBe(2);
+  });
+  test("When added one valid plugins, one invalid and one valid again, there should be two plugins",()=>{
+    myServer.addPlugin(new AuthPlugin());
+    try{
+      myServer.addPlugin({});
+    }catch(e){}
+    myServer.addPlugin(new AuthPlugin());
+    expect(myServer.getPlugins().length).toBe(2);
+  });
+  test("When added one TestPlugin, there should be one plugin",()=>{
+    myServer.addPlugin(new AuthPlugin());
+    expect(myServer.getPlugins().length).toBe(1);
   });
 });
 
