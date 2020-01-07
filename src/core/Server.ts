@@ -6,6 +6,7 @@ import { ELogLevel, EServerEvent, EServerState } from '../lib/enums';
 import Clientmanager from './Clientmanager';
 import { getServereventString } from './utils';
 import IServerplugin from "../interfaces/serverplugin";
+import Serverplugin from "./Serverplugin";
 
 export default class Server {
   private DataHandler: Datahandler = new Datahandler();
@@ -28,10 +29,12 @@ export default class Server {
     this.Eventhandler.addListener(getServereventString(event), eventProperties);
     return this;
   }
-  public addPlugin(newPlugin: IServerplugin): Server {
+  public addPlugin(newPlugin: any): Server {
     const self = this;
     const plugins = this.plugins;
-
+    if(!(newPlugin instanceof Serverplugin)){
+      throw Error("Invalid plugin");
+    }
     plugins.push(newPlugin);
     newPlugin.setLogHandle((props: any) => {
       self.Eventhandler.dispatch(getServereventString(EServerEvent.log), props);
