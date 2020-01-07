@@ -49,19 +49,21 @@ myServer.listen();
 ### Server 
 - addEventListener(event, properties)
     > Add eventlistener 
-- addPlugin(plugin)
-    > Add Serverplugin
-- close([stopPluginRunInterval=true])
+- addPlugin(plugin:Serverplugin)
+    > Add a new Serverplugin. Plugins need to be an instance of 
+- close(stopPluginRunInterval:boolean=true)
     > Close the HttpServer-listening and stop runing serverplugins (to prevent stop runing plugins, you have to set 'stopPluginRunInterval' to 'false')
+- getPlugins():IServerplugin[]
+    > Return active serverplugins
 - getPort()
     > Get Serverport
 - getState()
     > Get Serverstate
-- listen([port])
+- listen(port:number|null=null)
     > Start listen for incoming connections
-- setPort(port)
+- setPort(port:number)
     > Specify Serverport
-- setRunInterval(newIntervalMs)
+- setRunInterval(newIntervalMs:number|null)
     > Specify interval to run plugins in miliseconds or set to 'null' to disable.
 
 ### Client

@@ -32,6 +32,7 @@ export default class Server {
   public addPlugin(newPlugin: any): Server {
     const self = this;
     const plugins = this.plugins;
+    // @ts-ignore
     if(!(newPlugin instanceof Serverplugin)){
       throw Error("Invalid plugin");
     }
@@ -63,6 +64,7 @@ export default class Server {
       this.Eventhandler.dispatch('error', e);
     }
   }
+  public getPlugins():IServerplugin[]{return this.plugins;}
   public getPort(): number {
     return this.DataHandler.getDataSave('_port', 2607);
   }
