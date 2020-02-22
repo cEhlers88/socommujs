@@ -1,4 +1,4 @@
-import { IDataEntry } from '@cehlers88/ceutils/dist/interfaces';
+import { IDataEntry } from '@cehlers88/ceutils/dist/Interfaces';
 import Clientmanager from '../core/Clientmanager';
 import Serverplugin from '../core/Serverplugin';
 import { getServereventString } from '../core/utils';

@@ -1,4 +1,4 @@
-import { IDataEntry } from '@cehlers88/ceutils/dist/interfaces';
+import { IDataEntry } from '@cehlers88/ceutils/dist/Interfaces';
 
 export default interface IClientinfo {
   data?: IDataEntry[];

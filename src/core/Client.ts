@@ -1,4 +1,4 @@
-import Eventhandler from '@cehlers88/ceutils/dist/Eventhandler';
+import Eventhandler from '@cehlers88/ceutils/dist/handler/Eventhandler';
 import { IMessageEvent, w3cwebsocket } from 'websocket';
 import IResponse from '../interfaces/response';
 import { ELogLevel } from '../lib/enums';
@@ -69,7 +69,7 @@ export default class {
         this.Websocket.send(valueToSend);
       } else {
         this.connect(this.serverhost, this.serverport, () => {
-          const doNothing: boolean = true;
+          return true;
         });
       }
     } else {
@@ -87,7 +87,7 @@ export default class {
           try {
             // @ts-ignore
             const data: IResponse = JSON.parse(message.data);
-            if (data.isResponse && data.isResponse === true) {
+            if (data.isResponse) {
               self.requestsStack = self.requestsStack.filter(stackItem => {
                 let keep = true;
                 if (stackItem.requestId === data.requestId) {

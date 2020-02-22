@@ -34,22 +34,22 @@
   "author": "Christoph Ehlers<Christoph.Ehlers1988@gmx.de>",
   "license": "ISC",
   "dependencies": {
-    "@cehlers88/ceutils": "^1.0.6",
+    "@cehlers88/ceutils": "^1.2.2",
     "websocket": "^1.0.31"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.25",
-    "@types/node": "^13.1.2",
+    "@types/jest": "^24.9.1",
+    "@types/node": "^13.7.4",
     "@types/websocket": "^1.0.0",
     "jest": "^24.9.0",
     "np": "^6.1.0",
     "prettier": "^1.19.1",
-    "ts-jest": "^24.2.0",
-    "ts-node": "^8.5.4",
+    "ts-jest": "^24.3.0",
+    "ts-node": "^8.6.2",
     "ts-node-dev": "^1.0.0-pre.44",
     "tslint": "^5.20.1",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.7.4"
+    "typescript": "^3.8.2"
   },
   "module": "index.ts",
   "readme": "README.md"

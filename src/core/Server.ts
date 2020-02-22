@@ -1,11 +1,11 @@
-import Datahandler from '@cehlers88/ceutils/dist/Datahandler';
-import Eventhandler from '@cehlers88/ceutils/dist/Eventhandler';
+import Datahandler from '@cehlers88/ceutils/dist/handler/Datahandler';
+import Eventhandler from '@cehlers88/ceutils/dist/handler/Eventhandler';
 import * as http from 'http';
 import * as websocket from 'websocket';
-import IServerplugin from "../interfaces/serverplugin";
+import IServerplugin from '../interfaces/serverplugin';
 import { ELogLevel, EServerEvent, EServerState } from '../lib/enums';
 import Clientmanager from './Clientmanager';
-import Serverplugin from "./Serverplugin";
+import Serverplugin from './Serverplugin';
 import { getServereventString } from './utils';
 
 export default class Server {
@@ -33,8 +33,8 @@ export default class Server {
     const self = this;
     const plugins = this.plugins;
     // @ts-ignore
-    if(!(newPlugin instanceof Serverplugin)){
-      throw Error("Invalid plugin");
+    if (!(newPlugin instanceof Serverplugin)) {
+      throw Error('Invalid plugin');
     }
     plugins.push(newPlugin);
     newPlugin.setLogHandle((props: any) => {
@@ -64,7 +64,9 @@ export default class Server {
       this.Eventhandler.dispatch('error', e);
     }
   }
-  public getPlugins():IServerplugin[]{return this.plugins;}
+  public getPlugins(): IServerplugin[] {
+    return this.plugins;
+  }
   public getPort(): number {
     return this.DataHandler.getDataSave('_port', 2607);
   }
