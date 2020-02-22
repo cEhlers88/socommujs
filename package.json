@@ -51,6 +51,6 @@
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.8.2"
   },
-  "module": "index.ts",
+  "module": "index.js",
   "readme": "README.md"
 }
