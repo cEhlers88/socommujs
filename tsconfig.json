@@ -16,6 +16,7 @@
   ],
   "exclude": [
     "node_modules",
+    "src/__root__",
     "**/__root__/*",
     "**/__tests__/*"
   ]

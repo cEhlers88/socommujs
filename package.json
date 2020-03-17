@@ -1,12 +1,13 @@
 {
   "name": "socommujs",
-  "version": "2.0.15",
+  "version": "2.0.16",
   "description": "socket communication",
   "repository": {
     "type": "git",
     "url": "git+https://github.com:cEhlers88/socommujs.git"
   },
   "main": "index.js",
+  "type": "module",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc & tsc --p tsconfig.root.json",
@@ -21,6 +22,10 @@
     "preversion": "npm run lint",
     "version": "npm run format && git add -A src",
     "postversion": "git push && git push --tags"
+  },
+  "exports": {
+    "./Client": "./dist/core/Client.js",
+    "./Server": "./dist/core/Server.js"
   },
   "files": [
     "dist/**/*"
